@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Swiper overrides ─────────────────────────── */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #C8102E !important;
+}
+.swiper-pagination-bullet-active {
+  background: #C8102E !important;
+}
+.swiper-pagination-bullet {
+  background: rgba(255,255,255,0.5) !important;
+}
+
+/* ─── Custom scrollbar ─────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #C8102E; border-radius: 3px; }
+
+/* ─── Selection ────────────────────────────────── */
+::selection { background: #C8102E; color: #fff; }
+
+/* ─── Korean belt stripe decoration ───────────── */
+.belt-stripe {
+  background: linear-gradient(90deg, #C8102E 0%, #C8102E 20%, #0A0A0A 20%, #0A0A0A 40%, #D4A017 40%, #D4A017 60%, #0A0A0A 60%, #0A0A0A 80%, #C8102E 80%);
+  height: 4px;
+}
+
+/* ─── Noise texture overlay ────────────────────── */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.08;
+}
+
+/* ─── Stagger animations ───────────────────────── */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+@layer utilities {
+  .text-shadow-red {
+    text-shadow: 0 0 40px rgba(200,16,46,0.4);
+  }
+  .border-brand-red { border-color: #C8102E; }
+}
+
+/* ─── Event mini swiper small dots ──────────────── */
+.event-mini-swiper .swiper-pagination {
+  bottom: 6px !important;
+}
+.event-mini-swiper .swiper-pagination-bullet {
+  width: 5px !important;
+  height: 5px !important;
+  background: rgba(255,255,255,0.5) !important;
+}
+.event-mini-swiper .swiper-pagination-bullet-active {
+  background: #C8102E !important;
+}

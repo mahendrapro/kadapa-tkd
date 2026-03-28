@@ -1,0 +1,67 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: false
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+
+  # ── Hero Slides ─────────────────────────────────────────
+  - name: "hero"
+    label: "🖼️ Hero Slideshow"
+    label_singular: "Hero Slide"
+    folder: "content/hero"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    description: "Add full-screen slides for the homepage hero. Upload sparring, training or event photos here."
+    fields:
+      - { label: "Headline", name: "title", widget: "string", hint: "Bold text shown on the slide e.g. 'Forge Champions'" }
+      - { label: "Sub-text", name: "subtitle", widget: "text", hint: "Supporting description below the headline" }
+      - { label: "Photo (1920×1080 recommended)", name: "image", widget: "image", hint: "Upload student sparring, event or training photo" }
+      - { label: "Button Text", name: "button_text", widget: "string", default: "Join Training" }
+      - { label: "Button Link", name: "button_link", widget: "string", default: "https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training" }
+
+  # ── Events ──────────────────────────────────────────────
+  - name: "events"
+    label: "📅 Events"
+    label_singular: "Event"
+    folder: "content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    description: "Add events. You can upload multiple photos — they will auto-play as a mini slideshow on the event card."
+    fields:
+      - { label: "Event Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Description", name: "description", widget: "text", hint: "Short description of the event" }
+      - label: "Event Photos"
+        name: "photos"
+        widget: "list"
+        hint: "Upload multiple photos — they will play as a slideshow on the event card. First photo is the cover."
+        field: { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Cover Image (optional fallback)", name: "image", widget: "image", required: false, hint: "Single cover photo if you prefer not to use the list above" }
+
+  # ── Gallery ─────────────────────────────────────────────
+  - name: "gallery"
+    label: "📸 Gallery"
+    label_singular: "Gallery Photo"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    description: "Upload photos for the gallery page. Tick 'Show in Hero Slideshow' to also show a photo in the homepage hero."
+    fields:
+      - { label: "Photo", name: "image", widget: "image", hint: "Upload training or event photo" }
+      - { label: "Caption", name: "caption", widget: "string", required: false }
+      - label: "Show in Hero Slideshow"
+        name: "show_in_hero"
+        widget: "boolean"
+        default: false
+        hint: "Tick this to also show this photo in the homepage hero slider"
