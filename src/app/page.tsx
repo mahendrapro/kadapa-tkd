@@ -66,9 +66,6 @@ export default function HomePage() {
           {/* Master card */}
           <div className="card-pro p-8 rounded-sm relative overflow-hidden">
             {/* Logo watermark inside card */}
-            <div className="absolute -right-8 -bottom-8 opacity-5 pointer-events-none select-none">
-              <img src="/images/logo.png" alt="" className="w-48 h-48 object-contain" />
-            </div>
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center mb-5 text-3xl">🥋</div>
               <div className="text-brand-gold text-xs font-body font-semibold uppercase tracking-[0.3em] mb-1">Head Master</div>
@@ -167,9 +164,6 @@ export default function HomePage() {
 
       {/* ── CTA ──────────────────────────────── */}
       <section className="py-24 px-6 bg-brand-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none select-none flex items-center justify-center">
-          <img src="/images/logo.png" alt="" className="w-96 h-96 object-contain" />
-        </div>
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-5 leading-tight">
             Ready to Begin Your Taekwondo Journey?
