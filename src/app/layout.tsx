@@ -13,6 +13,10 @@ const barlow   = Barlow({ subsets: ['latin'], variable: '--font-body', weight: [
 export const metadata: Metadata = {
   title: 'Kadapa Tae Kwon Do Club | YSR Kadapa District',
   description: 'Kadapa Tae Kwon Do Club — Affiliated to District Taekwondo Association, YSR Kadapa District. Training since 2010 under Master Vijay Bhaskar Reddy, 4th Dan Black Belt.',
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
