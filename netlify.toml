@@ -6,9 +6,14 @@
   NEXT_TELEMETRY_DISABLED = "1"
   NODE_VERSION = "20"
 
-# 🔥 ADD THIS PART ↓↓↓
+# ─── FIX ADMIN ROUTE (DECAP CMS) ───────────────────
 [[redirects]]
   from = "/admin"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
   to = "/admin/index.html"
   status = 200
 
