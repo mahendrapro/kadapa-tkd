@@ -10,9 +10,6 @@ export default function AboutPage() {
     <>
       {/* Page header */}
       <section className="pt-40 pb-16 px-6 bg-brand-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none select-none flex items-center justify-end pr-10">
-          <img src="/images/logo.png" alt="" className="w-80 h-80 object-contain" />
-        </div>
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
@@ -70,9 +67,6 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Profile card */}
             <div className="card-pro p-8 flex flex-col items-center text-center rounded-sm relative overflow-hidden">
-              <div className="absolute inset-0 opacity-[0.04] pointer-events-none">
-                <img src="/images/logo.png" alt="" className="w-full h-full object-contain" />
-              </div>
               <div className="relative z-10">
                 <div className="w-28 h-28 rounded-full bg-brand-red/10 border-4 border-brand-red flex items-center justify-center text-5xl mb-5">🥋</div>
                 <h3 className="font-display font-bold text-brand-dark text-xl mb-1">Master Vijay Bhaskar Reddy</h3>
