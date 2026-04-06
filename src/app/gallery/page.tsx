@@ -11,9 +11,6 @@ export default function GalleryPage() {
   return (
     <>
       <section className="pt-40 pb-16 px-6 bg-brand-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none select-none flex items-center justify-end pr-10">
-          <img src="/images/logo.png" alt="" className="w-80 h-80 object-contain" />
-        </div>
         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
