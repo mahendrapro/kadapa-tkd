@@ -40,16 +40,6 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
               </div>
 
-              {/* Club logo watermark on hero */}
-              <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none select-none">
-                <img
-                  src="/images/logo.png"
-                  alt=""
-                  className="w-72 h-72 object-contain"
-                  style={{ opacity: 0.12 }}
-                />
-              </div>
-
               {/* Left accent */}
               <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
 
