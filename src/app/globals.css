@@ -17,17 +17,19 @@ body {
   color: #1A1A2E;
 }
 
-/* ─── Logo watermark — fixed center of ENTIRE page ─
-   Uses mix-blend-mode: overlay so it shows on BOTH
-   white sections AND dark/hero sections              */
+/* ─── Logo watermark — TWO LAYERS ──────────────────
+   Layer 1 (::before): visible on LIGHT backgrounds
+   Layer 2 (::after):  visible on DARK backgrounds   */
+
+/* For light/white sections */
 body::before {
   content: '';
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(75vw, 750px);
-  height: min(75vw, 750px);
+  width: min(70vw, 700px);
+  height: min(70vw, 700px);
   background-image: url('/images/logo.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -35,16 +37,28 @@ body::before {
   opacity: 0.08;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: overlay;
+}
+
+/* For dark sections — brighter version */
+body::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(70vw, 700px);
+  height: min(70vw, 700px);
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
 }
 
 .logo-watermark { position: relative; }
-
-/* ─── Section watermark (side) ──────────────────── */
-.section-watermark {
-  position: relative;
-  overflow: hidden;
-}
 
 /* ─── Red/Blue top stripe ───────────────────────── */
 .belt-stripe {
