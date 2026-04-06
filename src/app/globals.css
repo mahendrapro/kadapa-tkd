@@ -17,50 +17,36 @@ body {
   color: #1A1A2E;
 }
 
-/* ─── Logo watermark background ────────────────── */
-.logo-watermark {
-  position: relative;
-}
-.logo-watermark::before {
+/* ─── Logo watermark — fixed center of ENTIRE page ─
+   Uses mix-blend-mode: overlay so it shows on BOTH
+   white sections AND dark/hero sections              */
+body::before {
   content: '';
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(70vw, 700px);
-  height: min(70vw, 700px);
+  width: min(75vw, 750px);
+  height: min(75vw, 750px);
   background-image: url('/images/logo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.045;
+  opacity: 0.08;
   pointer-events: none;
-  z-index: 0;
+  z-index: 9999;
+  mix-blend-mode: overlay;
 }
 
-/* ─── Section watermark (per section) ──────────── */
+.logo-watermark { position: relative; }
+
+/* ─── Section watermark (side) ──────────────────── */
 .section-watermark {
   position: relative;
   overflow: hidden;
 }
-.section-watermark::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -5%;
-  transform: translateY(-50%);
-  width: min(50vw, 500px);
-  height: min(50vw, 500px);
-  background-image: url('/images/logo.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center right;
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 0;
-}
 
-/* ─── Red/blue top stripe ───────────────────────── */
+/* ─── Red/Blue top stripe ───────────────────────── */
 .belt-stripe {
   height: 4px;
   background: linear-gradient(90deg,
@@ -109,7 +95,7 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-/* ─── Announcement badge pulse ──────────────────── */
+/* ─── Urgent badge pulse ────────────────────────── */
 @keyframes urgentPulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.6; }
