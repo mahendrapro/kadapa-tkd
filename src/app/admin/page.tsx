@@ -1,16 +1,7 @@
-'use client';
-import { useEffect } from 'react';
-
+// This file intentionally left minimal.
+// The actual admin is served from /public/admin/index.html
+// via Netlify redirects in netlify.toml
 export default function AdminPage() {
-  useEffect(() => {
-    window.location.replace('/admin/index.html');
-  }, []);
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100vh', fontFamily: 'sans-serif', color: '#666'
-    }}>
-      Loading CMS...
-    </div>
-  );
+  return null;
 }
+export const dynamic = 'force-static';
