@@ -3,7 +3,7 @@ display_url: https://kadapa-tkd.vercel.app
 
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/kadapa-tkd   # 🔁 CHANGE THIS
+  repo: mahendrapro/kadapa-tkd   # 🔁 CHANGE THIS
   branch: main
 
 local_backend: false
