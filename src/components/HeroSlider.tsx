@@ -35,8 +35,13 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 <img
                   src={slide.image || FALLBACKS[i % FALLBACKS.length]}
                   alt={slide.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
+className="
+  w-full h-full 
+  object-cover 
+  object-center
+  md:object-[50%_25%]
+  lg:object-[50%_20%]
+"                  onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       FALLBACKS[i % FALLBACKS.length];
                   }}
