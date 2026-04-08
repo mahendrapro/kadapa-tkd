@@ -1,5 +1,5 @@
 ---
-image: "/images/gallery-1.jpg"
-caption: "Training Session 1"
-show_in_hero: false
+image: /images/master-leg-moment.png
+caption: ""
+show_in_hero: true
 ---
