@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && cp public/admin/index.html out/admin/index.html"
   publish = "out"
 
 [build.environment]
@@ -7,7 +7,6 @@
   NODE_VERSION = "20"
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
 
-# ─── FIX ADMIN ROUTE (DECAP CMS) ───────────────────
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
@@ -15,7 +14,7 @@
 
 [[redirects]]
   from = "/admin/"
-  to = "/admin/index.html"
+  to = "/admin/index.html"  
   status = 200
 
 [[redirects]]
