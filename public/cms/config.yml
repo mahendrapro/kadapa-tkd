@@ -2,17 +2,21 @@ site_url: https://kadapa-tkd.vercel.app
 display_url: https://kadapa-tkd.vercel.app
 
 backend:
-  name: git-gateway
+  name: github
+  repo: YOUR_GITHUB_USERNAME/kadapa-tkd   # 🔁 CHANGE THIS
   branch: main
+
+local_backend: false
 
 media_folder: "public/images"
 public_folder: "/images"
 
 collections:
 
-  # HERO
+  # ── HERO SLIDES ───────────────────────────────
   - name: "hero"
     label: "Hero Slides"
+    label_singular: "Hero Slide"
     folder: "content/hero"
     create: true
     slug: "{{slug}}"
@@ -25,27 +29,33 @@ collections:
       - { label: "Button Text", name: "button_text", widget: "string", default: "Join Training" }
       - { label: "Button Link", name: "button_link", widget: "string", default: "https://wa.me/918522833600" }
 
-  # EVENTS
+  # ── EVENTS ───────────────────────────────────
   - name: "events"
     label: "Events"
+    label_singular: "Event"
     folder: "content/events"
     create: true
     slug: "{{year}}-{{month}}-{{slug}}"
     extension: "md"
     format: "frontmatter"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Event Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false }
       - { label: "Description", name: "description", widget: "text" }
-      - label: "Photos"
+
+      - label: "Event Photos (Slideshow)"
         name: "photos"
         widget: "list"
-        field: { label: "Photo", name: "image", widget: "image" }
-      - { label: "Cover Image", name: "image", widget: "image", required: false }
+        hint: "Upload multiple photos for slideshow"
+        field:
+          { label: "Photo", name: "image", widget: "image" }
 
-  # GALLERY
+      - { label: "Cover Image (optional)", name: "image", widget: "image", required: false }
+
+  # ── GALLERY ──────────────────────────────────
   - name: "gallery"
     label: "Gallery"
+    label_singular: "Gallery Photo"
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
@@ -56,9 +66,10 @@ collections:
       - { label: "Caption", name: "caption", widget: "string", required: false }
       - { label: "Show in Hero", name: "show_in_hero", widget: "boolean", default: false }
 
-  # ANNOUNCEMENTS
+  # ── ANNOUNCEMENTS ────────────────────────────
   - name: "announcements"
     label: "Announcements"
+    label_singular: "Announcement"
     folder: "content/announcements"
     create: true
     slug: "{{slug}}"
@@ -67,19 +78,31 @@ collections:
     fields:
       - { label: "Text", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false }
+
       - label: "Badge"
         name: "badge"
         widget: "select"
-        options: ["NEW", "URGENT", "UPDATE", "INFO"]
+        options:
+          - "NEW"
+          - "URGENT"
+          - "UPDATE"
+          - "INFO"
         default: "NEW"
+
       - { label: "Pinned", name: "pinned", widget: "boolean", default: false }
       - { label: "Active", name: "active", widget: "boolean", default: true }
+
       - label: "Link Type"
         name: "link_type"
         widget: "select"
-        options: ["none", "url", "pdf"]
+        options:
+          - "none"
+          - "url"
+          - "pdf"
         default: "none"
+
       - { label: "URL", name: "link", widget: "string", required: false }
+
       - label: "PDF File"
         name: "pdf"
         widget: "file"
