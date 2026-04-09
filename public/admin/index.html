@@ -7,11 +7,11 @@
   <title>Kadapa TKD · Admin</title>
 </head>
 <body>
-  <script>window.CMS_MANUAL_INIT = true;</script>
-<script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
+  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
   <script>
+    const { CMS } = window;
     CMS.init({ config: {
-      backend: { name: 'github', repo: 'mahendrapro/kadapa-tkd', branch: 'main', auth_type: 'implicit', app_id: 'Ov23lidN0RitxwQhRhD2' },
+      backend: { name: 'github', repo: 'mahendrapro/kadapa-tkd', branch: 'main', auth_type: 'pkce', app_id: 'Ov23liooPpVksIMadrIA' },
       site_url: 'https://kadapa-tkd.vercel.app',
       media_folder: 'public/images', public_folder: '/images',
       collections: [
