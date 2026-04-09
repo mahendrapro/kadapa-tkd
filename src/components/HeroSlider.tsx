@@ -31,19 +31,19 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             <div className="relative h-full w-full flex items-center">
 
               {/* Background */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 bg-black">
                 <img
                   src={slide.image || FALLBACKS[i % FALLBACKS.length]}
                   alt={slide.title}
-className="
-  w-full h-full 
-  object-cover 
-  object-center
-  md:object-[50%_25%]
-  lg:object-[50%_20%]
-"                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      FALLBACKS[i % FALLBACKS.length];
+                  className="w-full h-full transition-transform duration-500"
+                  onLoad={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    const isPortrait = img.naturalHeight > img.naturalWidth * 1.2;
+                    img.style.objectFit = isPortrait ? 'contain' : 'cover';
+                    img.style.objectPosition = isPortrait ? 'center' : 'center 20%';
+                  }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = FALLBACKS[i % FALLBACKS.length];
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
@@ -76,25 +76,17 @@ className="
                     {slide.title}
                   </h1>
 
-                  {/* ✅ FIXED SUBTITLE */}
+                  {/* Subtitle */}
                   <p className="text-white/75 font-body text-base md:text-lg leading-relaxed mb-8 max-w-xl whitespace-pre-line">
                     {slide.subtitle}
                   </p>
 
                   {/* Buttons */}
                   <div className="flex flex-wrap gap-4">
-                    <a
+                    
                       href={slide.button_link}
-                      target={
-                        slide.button_link?.startsWith('http')
-                          ? '_blank'
-                          : undefined
-                      }
-                      rel={
-                        slide.button_link?.startsWith('http')
-                          ? 'noopener noreferrer'
-                          : undefined
-                      }
+                      target={slide.button_link?.startsWith('http') ? '_blank' : undefined}
+                      rel={slide.button_link?.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-8 py-4 transition-all group"
                     >
                       {slide.button_text}
@@ -104,16 +96,11 @@ className="
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </a>
 
-                    <a
+                    
                       href="tel:+918522833600"
                       className="inline-flex items-center gap-3 border border-white/40 hover:border-white text-white/80 hover:text-white font-body font-medium uppercase tracking-widest text-sm px-8 py-4 transition-all"
                     >
