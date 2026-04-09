@@ -6,11 +6,13 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import type { HeroSlide } from '@/lib/content';
+
 const FALLBACKS = [
   'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1600&q=80',
   'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80',
   'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1600&q=80',
 ];
+
 export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
@@ -63,7 +65,7 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                     {slide.subtitle}
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    
+                    <a
                       href={slide.button_link}
                       target={slide.button_link?.startsWith('http') ? '_blank' : undefined}
                       rel={slide.button_link?.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -79,7 +81,7 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </a>
-                    
+                    <a
                       href="tel:+918522833600"
                       className="inline-flex items-center gap-3 border border-white/40 hover:border-white text-white/80 hover:text-white font-body font-medium uppercase tracking-widest text-sm px-8 py-4 transition-all"
                     >
