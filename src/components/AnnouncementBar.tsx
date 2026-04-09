@@ -28,7 +28,8 @@ export default function AnnouncementBar({ announcements }: { announcements: Anno
     <div className="fixed top-0 left-0 right-0 z-[60]">
 
       {/* Pinned bars — max 2 on mobile, all on desktop */}
-{pinned.map((item, i) => (        <div key={i} className="bg-brand-red border-b border-red-700 px-3 md:px-4 py-1 md:py-1.5 flex items-center gap-2 md:gap-3">
+      {pinned.slice(0, window?.innerWidth < 640 ? 2 : pinned.length).map((item, i) => (
+        <div key={i} className="bg-brand-red border-b border-red-700 px-3 md:px-4 py-1 md:py-1.5 flex items-center gap-2 md:gap-3">
           <span className="text-[9px] md:text-[10px] bg-white text-brand-red font-bold uppercase px-1.5 py-0.5 shrink-0">📌 PINNED</span>
           {renderLink(item,
             <span className="text-white text-[11px] md:text-xs font-body truncate">
