@@ -1,121 +1,83 @@
 'use client';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-fade';
-import type { HeroSlide } from '@/lib/content';
+import { useState } from 'react';
+import type { Announcement } from '@/lib/content';
 
-const FALLBACKS = [
-  'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1600&q=80',
-  'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80',
-  'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1600&q=80',
-];
+const BADGE: Record<string, string> = {
+  NEW:    'bg-brand-red text-white text-[10px] font-bold px-1.5 py-0.5',
+  URGENT: 'bg-orange-500 text-white text-[10px] font-bold px-1.5 py-0.5',
+  UPDATE: 'bg-brand-blue text-white text-[10px] font-bold px-1.5 py-0.5',
+  INFO:   'bg-gray-200 text-gray-700 text-[10px] font-bold px-1.5 py-0.5',
+};
 
-export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
+export default function AnnouncementBar({ announcements }: { announcements: Announcement[] }) {
+  const [dismissed, setDismissed] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  if (dismissed || !announcements.length) return null;
+
+  const pinned = announcements.filter((a) => a.pinned);
+  const rolling = announcements;
+
+  const renderLink = (item: Announcement, children: React.ReactNode) => {
+    const href = item.link_type === 'pdf' ? item.pdf : item.link;
+    if (href) return <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{children}</a>;
+    return <span>{children}</span>;
+  };
+
   return (
-    <section className="relative h-screen min-h-[600px] overflow-hidden">
-      <Swiper
-        modules={[Autoplay, Pagination, Navigation, EffectFade]}
-        effect="fade"
-        autoplay={{ delay: 5500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        navigation
-        loop
-        className="h-full w-full hero-swiper"
+    <div className="fixed top-0 left-0 right-0 z-[60]">
+
+      {/* Pinned bars — max 2 on mobile, all on desktop */}
+      {pinned.slice(0, window?.innerWidth < 640 ? 2 : pinned.length).map((item, i) => (
+        <div key={i} className="bg-brand-red border-b border-red-700 px-3 md:px-4 py-1 md:py-1.5 flex items-center gap-2 md:gap-3">
+          <span className="text-[9px] md:text-[10px] bg-white text-brand-red font-bold uppercase px-1.5 py-0.5 shrink-0">📌 PINNED</span>
+          {renderLink(item,
+            <span className="text-white text-[11px] md:text-xs font-body truncate">
+              {item.title}
+              {item.link_type === 'pdf' && <span className="ml-1 text-white/70 text-[10px]">📄</span>}
+              {item.link && item.link_type !== 'none' && <span className="ml-1 text-white/60 text-[10px]">↗</span>}
+            </span>
+          )}
+        </div>
+      ))}
+
+      {/* Scrolling ticker */}
+      <div
+        className="bg-brand-blue flex items-stretch overflow-hidden border-b border-blue-900"
+        style={{ height: '28px' }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
       >
-        {slides.map((slide, i) => (
-          <SwiperSlide key={i}>
-            <div className="relative h-full w-full flex items-center">
-              <div
-                className="absolute inset-0"
-                style={{ backgroundColor: '#000' }}
-              >
-                <img
-                  src={slide.image || FALLBACKS[i % FALLBACKS.length]}
-                  alt={slide.title}
-                  className="w-full h-full"
-                  onLoad={(e) => {
-                    const img = e.target as HTMLImageElement;
-                    const isPortrait = img.naturalHeight > img.naturalWidth * 1.1;
-                    if (isPortrait) {
-                      img.style.objectFit = 'contain';
-                      img.style.objectPosition = 'center center';
-                    } else {
-                      img.style.objectFit = 'cover';
-                      img.style.objectPosition = 'center 25%';
-                    }
-                  }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = FALLBACKS[i % FALLBACKS.length];
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
-              </div>
-              <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
-              <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 w-full pt-20">
-                <div className="max-w-2xl">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-0.5 bg-brand-red" />
-                    <span className="text-brand-red text-xs font-body font-semibold uppercase tracking-[0.3em]">
-                      Kadapa Tae Kwon Do Club
-                    </span>
-                  </div>
-                  <h1
-                    className="font-display font-black text-white leading-[1.05] mb-5"
-                    style={{
-                      fontSize: 'clamp(2rem, 5.5vw, 4.2rem)',
-                      textShadow: '0 2px 20px rgba(0,0,0,0.7)',
-                    }}
-                  >
-                    {slide.title}
-                  </h1>
-                  <p className="text-white/80 font-body text-base md:text-lg leading-relaxed mb-8 max-w-xl whitespace-pre-line">
-                    {slide.subtitle}
-                  </p>
-                  <div className="flex flex-wrap gap-4">
-                    <a
-                      href={slide.button_link}
-                      target={slide.button_link?.startsWith('http') ? '_blank' : undefined}
-                      rel={slide.button_link?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-8 py-4 transition-all group"
-                    >
-                      {slide.button_text}
-                      <svg
-                        className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </a>
-                    <a
-                      href="tel:+918522833600"
-                      className="inline-flex items-center gap-3 border border-white/40 hover:border-white text-white/80 hover:text-white font-body font-medium uppercase tracking-widest text-sm px-8 py-4 transition-all"
-                    >
-                      📞 +91 85228 33600
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute bottom-14 left-0 right-0 z-10 px-8 md:px-16 max-w-7xl mx-auto">
-                <div className="flex flex-wrap gap-6 text-white/50 text-xs font-body uppercase tracking-widest">
-                  <span>🏆 District Taekwondo Association</span>
-                  <span>⬛ 4th Dan Black Belt Master</span>
-                  <span>📅 Training Since 2010</span>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-bounce">
-        <div className="w-px h-6 bg-white/40" />
-        <div className="w-1.5 h-1.5 rounded-full bg-white" />
+        <div className="shrink-0 bg-brand-red flex items-center px-2 md:px-4">
+          <span className="text-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">📢 NEWS</span>
+        </div>
+        <div className="relative flex-1 overflow-hidden flex items-center">
+          <div
+            className="flex items-center whitespace-nowrap"
+            style={{
+              animation: 'ticker 40s linear infinite',
+              animationPlayState: paused ? 'paused' : 'running',
+            }}
+          >
+            {[...rolling, ...rolling].map((item, i) => (
+              <span key={i} className="inline-flex items-center gap-1.5 px-4 md:px-8 text-white/90">
+                <span className={BADGE[item.badge] || BADGE.INFO}>{item.badge}</span>
+                {renderLink(item,
+                  <span className="text-[11px] md:text-xs font-body text-white/85 hover:text-white">
+                    {item.title}
+                    {item.link_type === 'pdf' && <span className="ml-1 text-white/50 text-[10px]">📄</span>}
+                  </span>
+                )}
+                <span className="text-white/25 text-xs ml-1">◆</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <button
+          onClick={() => setDismissed(true)}
+          className="shrink-0 px-2 md:px-3 text-white/50 hover:text-white text-xs border-l border-blue-700 transition-colors"
+        >✕</button>
       </div>
-    </section>
+    </div>
   );
 }
