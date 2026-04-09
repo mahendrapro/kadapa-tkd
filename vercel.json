@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
+  "framework": "nextjs",
+  "routes": [
+    {
+      "src": "/admin",
+      "dest": "/admin/index.html"
+    }
+  ]
+}
