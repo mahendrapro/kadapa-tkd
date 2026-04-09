@@ -2,8 +2,7 @@ backend:
   name: github
   repo: mahendrapro/kadapa-tkd
   branch: main
-  auth_type: pkce
-  app_id: Ov23liooPpVksIMadrIA
+  base_url: https://kadapa-tkd-oauth.vercel.app
 
 site_url: https://kadapa-tkd.vercel.app
 media_folder: public/images
