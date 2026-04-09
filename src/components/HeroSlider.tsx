@@ -28,23 +28,31 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
             <div className="relative h-full w-full flex items-center">
-              <div className="absolute inset-0 bg-black">
+              <div
+                className="absolute inset-0"
+                style={{ backgroundColor: '#000' }}
+              >
                 <img
                   src={slide.image || FALLBACKS[i % FALLBACKS.length]}
                   alt={slide.title}
-                  className="w-full h-full transition-transform duration-500"
+                  className="w-full h-full"
                   onLoad={(e) => {
                     const img = e.target as HTMLImageElement;
-                    const isPortrait = img.naturalHeight > img.naturalWidth * 1.2;
-                    img.style.objectFit = isPortrait ? 'contain' : 'cover';
-                    img.style.objectPosition = isPortrait ? 'center' : 'center 20%';
+                    const isPortrait = img.naturalHeight > img.naturalWidth * 1.1;
+                    if (isPortrait) {
+                      img.style.objectFit = 'contain';
+                      img.style.objectPosition = 'center center';
+                    } else {
+                      img.style.objectFit = 'cover';
+                      img.style.objectPosition = 'center 25%';
+                    }
                   }}
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = FALLBACKS[i % FALLBACKS.length];
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
               </div>
               <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
               <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 w-full pt-20">
@@ -57,11 +65,14 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   </div>
                   <h1
                     className="font-display font-black text-white leading-[1.05] mb-5"
-                    style={{ fontSize: 'clamp(2rem, 5.5vw, 4.2rem)', textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+                    style={{
+                      fontSize: 'clamp(2rem, 5.5vw, 4.2rem)',
+                      textShadow: '0 2px 20px rgba(0,0,0,0.7)',
+                    }}
                   >
                     {slide.title}
                   </h1>
-                  <p className="text-white/75 font-body text-base md:text-lg leading-relaxed mb-8 max-w-xl whitespace-pre-line">
+                  <p className="text-white/80 font-body text-base md:text-lg leading-relaxed mb-8 max-w-xl whitespace-pre-line">
                     {slide.subtitle}
                   </p>
                   <div className="flex flex-wrap gap-4">
@@ -91,7 +102,7 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 </div>
               </div>
               <div className="absolute bottom-14 left-0 right-0 z-10 px-8 md:px-16 max-w-7xl mx-auto">
-                <div className="flex flex-wrap gap-6 text-white/45 text-xs font-body uppercase tracking-widest">
+                <div className="flex flex-wrap gap-6 text-white/50 text-xs font-body uppercase tracking-widest">
                   <span>🏆 District Taekwondo Association</span>
                   <span>⬛ 4th Dan Black Belt Master</span>
                   <span>📅 Training Since 2010</span>
