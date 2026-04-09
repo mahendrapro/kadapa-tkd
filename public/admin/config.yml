@@ -2,8 +2,10 @@ site_url: https://dashing-malabi-fcb9e6.netlify.app
 display_url: https://dashing-malabi-fcb9e6.netlify.app
 
 backend:
-  name: git-gateway
+  name: github
+  repo: mahendrapro/kadapa-tkd
   branch: main
+  base_url: https://sveltia-cms-auth.vercel.app
 
 local_backend: false
 
