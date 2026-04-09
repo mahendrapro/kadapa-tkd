@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "mkdir -p out/admin && cp public/admin/index.html out/admin/index.html && cp public/admin/config.yml out/admin/config.yml",
+"postbuild": "mkdir -p out/admin && cp public/admin/index.html out/admin/index.html",
     "start": "next start"
   },
   "dependencies": {
