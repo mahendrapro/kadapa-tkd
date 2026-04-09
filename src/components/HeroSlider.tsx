@@ -1,5 +1,4 @@
 'use client';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -7,13 +6,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import type { HeroSlide } from '@/lib/content';
-
 const FALLBACKS = [
   'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=1600&q=80',
   'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1600&q=80',
   'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1600&q=80',
 ];
-
 export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
@@ -73,7 +70,12 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                       className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-8 py-4 transition-all group"
                     >
                       {slide.button_text}
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </a>
