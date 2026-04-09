@@ -29,8 +29,6 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         {slides.map((slide, i) => (
           <SwiperSlide key={i}>
             <div className="relative h-full w-full flex items-center">
-
-              {/* Background */}
               <div className="absolute inset-0 bg-black">
                 <img
                   src={slide.image || FALLBACKS[i % FALLBACKS.length]}
@@ -49,39 +47,24 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10" />
               </div>
-
-              {/* Left accent */}
               <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-brand-red" />
-
-              {/* Content */}
               <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 w-full pt-20">
                 <div className="max-w-2xl">
-
-                  {/* Tag */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-0.5 bg-brand-red" />
                     <span className="text-brand-red text-xs font-body font-semibold uppercase tracking-[0.3em]">
                       Kadapa Tae Kwon Do Club
                     </span>
                   </div>
-
-                  {/* Title */}
                   <h1
                     className="font-display font-black text-white leading-[1.05] mb-5"
-                    style={{
-                      fontSize: 'clamp(2rem, 5.5vw, 4.2rem)',
-                      textShadow: '0 2px 20px rgba(0,0,0,0.5)',
-                    }}
+                    style={{ fontSize: 'clamp(2rem, 5.5vw, 4.2rem)', textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
                   >
                     {slide.title}
                   </h1>
-
-                  {/* Subtitle */}
                   <p className="text-white/75 font-body text-base md:text-lg leading-relaxed mb-8 max-w-xl whitespace-pre-line">
                     {slide.subtitle}
                   </p>
-
-                  {/* Buttons */}
                   <div className="flex flex-wrap gap-4">
                     
                       href={slide.button_link}
@@ -90,16 +73,10 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                       className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-8 py-4 transition-all group"
                     >
                       {slide.button_text}
-                      <svg
-                        className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </a>
-
                     
                       href="tel:+918522833600"
                       className="inline-flex items-center gap-3 border border-white/40 hover:border-white text-white/80 hover:text-white font-body font-medium uppercase tracking-widest text-sm px-8 py-4 transition-all"
@@ -109,8 +86,6 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   </div>
                 </div>
               </div>
-
-              {/* Bottom Info */}
               <div className="absolute bottom-14 left-0 right-0 z-10 px-8 md:px-16 max-w-7xl mx-auto">
                 <div className="flex flex-wrap gap-6 text-white/45 text-xs font-body uppercase tracking-widest">
                   <span>🏆 District Taekwondo Association</span>
@@ -122,8 +97,6 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* Scroll indicator */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 animate-bounce">
         <div className="w-px h-6 bg-white/40" />
         <div className="w-1.5 h-1.5 rounded-full bg-white" />
