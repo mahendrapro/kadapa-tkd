@@ -41,7 +41,8 @@ export default function AboutPage() {
           {/* Timeline */}
           <div className="pl-6 border-l-2 border-brand-red/20 space-y-7">
             {[
-              { year: '1992', event: 'Master Vijay begins his Taekwondo journey' },
+              { year: '1985', event: 'Master Vijay begins his Taekwondo journey' },
+              { year: '1992', event: 'Coaching career begins' },
               { year: '2010', event: 'Kadapa Tae Kwon Do Club officially established' },
               { year: '2012', event: 'First batch participates in District Championships' },
               { year: '2015', event: 'Master attains 4th Dan Black Belt certification' },
@@ -63,7 +64,7 @@ export default function AboutPage() {
       <section className="py-24 px-6 bg-brand-gray" id="master">
         <div className="max-w-7xl mx-auto">
           <SectionHeading eyebrow="Head Master" title="Master Vijay Bhaskar Reddy"
-            subtitle="A decorated national athlete and certified instructor with over 30 years of dedication to Taekwondo." />
+            subtitle="A decorated national athlete and certified instructor with over 40 years of dedication to Taekwondo." />
           <div className="grid md:grid-cols-3 gap-8">
             {/* Profile card */}
             <div className="card-pro p-8 flex flex-col items-center text-center rounded-sm relative overflow-hidden">
@@ -73,7 +74,10 @@ export default function AboutPage() {
                 <div className="text-brand-red text-sm font-body font-semibold mb-1">Chairman</div>
                 <div className="text-brand-muted text-xs font-body uppercase tracking-widest">District Taekwondo Association</div>
                 <div className="mt-4 pt-4 border-t border-gray-100 text-brand-muted text-xs font-body">
-                  Experience since <span className="text-brand-red font-display font-black text-xl block mt-1">1992</span>
+                  Journey began in <span className="text-brand-red font-display font-black text-xl block mt-1">1985</span>
+                </div>
+                <div className="mt-2 text-brand-muted text-xs font-body">
+                  Coaching since <span className="text-brand-red font-display font-black text-xl block mt-1">1992</span>
                 </div>
               </div>
             </div>
@@ -85,7 +89,7 @@ export default function AboutPage() {
                 { icon: '📜', title: 'National Master & Instructor', desc: 'Holds National Master and Instructor Licence, authorised to train and grade students.' },
                 { icon: '🚩', title: 'National Referee', desc: 'Certified National Referee, officiating at state and national competitions.' },
                 { icon: '🥇', title: 'National Gold Medalist', desc: 'Competed and won at the highest level — a national gold medallist.' },
-                { icon: '⏳', title: '30+ Years Experience', desc: 'Training and teaching Taekwondo continuously since 1992.' },
+                { icon: '⏳', title: '40+ Years Experience', desc: 'Training and teaching Taekwondo continuously since 1985.' },
                 { icon: '🏆', title: 'District Association Chairman', desc: 'Currently serving as Chairman, District Taekwondo Association, YSR Kadapa.' },
               ].map(({ icon, title, desc }) => (
                 <div key={title} className="card-pro p-5 rounded-sm group">
