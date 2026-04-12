@@ -25,11 +25,11 @@ export default function HomePage() {
     { label: '2nd Kup',  bg: '#FF0000', stripe: null },
     { label: '1st Kup',  bg: '#FF0000', stripe: '#000000' },
     // Black Belts
-    { label: '1st Dan',        bg: '#000000', border: true, stripe: null },
-    { label: '2nd Dan',        bg: '#000000', border: true, stripe: null },
-    { label: '3rd Dan',        bg: '#000000', border: true, stripe: null },
-    { label: '4th Dan',        bg: '#000000', border: true, stripe: null },
-    { label: '5th Dan Master', bg: '#000000', border: true, stripe: null },
+    { label: '1st Dan',        bg: '#111111', border: true, stripe: null },
+    { label: '2nd Dan',        bg: '#111111', border: true, stripe: null },
+    { label: '3rd Dan',        bg: '#111111', border: true, stripe: null },
+    { label: '4th Dan',        bg: '#111111', border: true, stripe: null },
+    { label: '5th Dan Master', bg: '#111111', border: true, stripe: null },
   ];
 
   return (
@@ -84,8 +84,6 @@ export default function HomePage() {
               </svg>
             </Link>
           </div>
-
-          {/* Master card */}
           <div className="card-pro p-8 rounded-sm relative overflow-hidden">
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center mb-5 text-3xl">🥋</div>
@@ -141,26 +139,27 @@ export default function HomePage() {
             title="White Belt to Black Belt"
             subtitle="Every colour is a milestone. Every grade is earned. Join the journey."
           />
-          <div className="flex flex-wrap justify-center gap-5 mt-8">
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
             {belts.map(({ label, bg, stripe, border }) => (
-              <div key={label} className="flex flex-col items-center gap-2">
-                {/* Belt swatch with middle stripe */}
+              <div key={label} className="flex flex-col items-center gap-2 w-16 md:w-20">
+                {/* Belt swatch — bigger and clearer */}
                 <div
-                  className={`relative overflow-hidden w-14 h-5 rounded-sm shadow-sm ${border ? 'border border-gray-300' : ''}`}
-                  style={{ backgroundColor: bg }}
+                  className={`relative overflow-hidden w-full shadow-md ${border ? 'border-2 border-gray-400' : ''}`}
+                  style={{ backgroundColor: bg, height: '28px', borderRadius: '3px' }}
                 >
+                  {/* Middle stripe */}
                   {stripe && (
                     <div
                       className="absolute left-0 right-0"
                       style={{
-                        top: '30%',
-                        bottom: '30%',
+                        top: '28%',
+                        bottom: '28%',
                         backgroundColor: stripe,
                       }}
                     />
                   )}
                 </div>
-                <span className="text-brand-muted text-[10px] font-body uppercase tracking-wider text-center whitespace-nowrap">
+                <span className="text-brand-muted text-[9px] md:text-[10px] font-body uppercase tracking-wider text-center leading-tight">
                   {label}
                 </span>
               </div>
