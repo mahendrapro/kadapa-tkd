@@ -3,10 +3,8 @@ import HeroSlider from '@/components/HeroSlider';
 import EventCard from '@/components/EventCard';
 import GalleryGrid from '@/components/GalleryGrid';
 import SectionHeading from '@/components/SectionHeading';
-import Link from 'next/link';import BeltSection from '@/components/BeltSection';
-
-// Replace the entire belt journey section with:
-<BeltSection />
+import BeltSection from '@/components/BeltSection';
+import Link from 'next/link';
 
 export default function HomePage() {
   const slides  = getHeroSlides();
@@ -65,6 +63,8 @@ export default function HomePage() {
               </svg>
             </Link>
           </div>
+
+          {/* Master card */}
           <div className="card-pro p-8 rounded-sm relative overflow-hidden">
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center mb-5 text-3xl">🥋</div>
@@ -113,48 +113,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Belt journey ─────────────────────── */}
-      <section className="py-24 px-6 bg-brand-light section-watermark">
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <SectionHeading
-            eyebrow="The Journey"
-            title="White Belt to Black Belt"
-            subtitle="Every colour is a milestone. Every grade is earned. Join the journey."
-          />
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            {belts.map(({ label, bg, stripe, border }) => (
-              <div key={label} className="flex flex-col items-center gap-2 w-16 md:w-20">
-                {/* Belt swatch — bigger and clearer */}
-                <div
-                  className={`relative overflow-hidden w-full shadow-md ${border ? 'border-2 border-gray-400' : ''}`}
-                  style={{ backgroundColor: bg, height: '28px', borderRadius: '3px' }}
-                >
-                  {/* Middle stripe */}
-                  {stripe && (
-                    <div
-                      className="absolute left-0 right-0"
-                      style={{
-                        top: '28%',
-                        bottom: '28%',
-                        backgroundColor: stripe,
-                      }}
-                    />
-                  )}
-                </div>
-                <span className="text-brand-muted text-[9px] md:text-[10px] font-body uppercase tracking-wider text-center leading-tight">
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <a href="https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training"
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-10 py-5 transition-colors">
-              Start Your Journey Today
-            </a>
-          </div>
-        </div>
-      </section>
+      <BeltSection />
 
       {/* ── Gallery preview ───────────────────── */}
       <section className="py-24 px-6 bg-brand-gray">
