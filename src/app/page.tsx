@@ -3,34 +3,15 @@ import HeroSlider from '@/components/HeroSlider';
 import EventCard from '@/components/EventCard';
 import GalleryGrid from '@/components/GalleryGrid';
 import SectionHeading from '@/components/SectionHeading';
-import Link from 'next/link';
+import Link from 'next/link';import BeltSection from '@/components/BeltSection';
+
+// Replace the entire belt journey section with:
+<BeltSection />
 
 export default function HomePage() {
   const slides  = getHeroSlides();
   const events  = getEvents();
   const gallery = getGallery();
-
-  const belts = [
-    // Junior Grades
-    { label: '10th KUP', bg: '#FFFFFF', border: true,  stripe: null },
-    { label: '9th Kup',  bg: '#FFFF00', stripe: '#FFFFFF' },
-    { label: '8th Kup',  bg: '#FFFF00', stripe: null },
-    { label: '7th Kup',  bg: '#FFFF00', stripe: '#008000' },
-    // Intermediate
-    { label: '6th Kup',  bg: '#008000', stripe: null },
-    { label: '5th Kup',  bg: '#008000', stripe: '#0000FF' },
-    { label: '4th Kup',  bg: '#0000FF', stripe: null },
-    // Advanced
-    { label: '3rd Kup',  bg: '#0000FF', stripe: '#FF0000' },
-    { label: '2nd Kup',  bg: '#FF0000', stripe: null },
-    { label: '1st Kup',  bg: '#FF0000', stripe: '#000000' },
-    // Black Belts
-    { label: '1st Dan',        bg: '#111111', border: true, stripe: null },
-    { label: '2nd Dan',        bg: '#111111', border: true, stripe: null },
-    { label: '3rd Dan',        bg: '#111111', border: true, stripe: null },
-    { label: '4th Dan',        bg: '#111111', border: true, stripe: null },
-    { label: '5th Dan Master', bg: '#111111', border: true, stripe: null },
-  ];
 
   return (
     <>
