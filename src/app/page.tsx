@@ -19,7 +19,7 @@ export default function HomePage() {
       <div className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           {[
-            { num: '30+',  label: 'Years of Excellence' },
+            { num: '40+',  label: 'Years of Excellence' },
             { num: '2010', label: 'Founded' },
             { num: '4th',  label: 'Dan Black Belt Master' },
             { num: '100+', label: 'Champions Trained' },
@@ -65,7 +65,6 @@ export default function HomePage() {
 
           {/* Master card */}
           <div className="card-pro p-8 rounded-sm relative overflow-hidden">
-            {/* Logo watermark inside card */}
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center mb-5 text-3xl">🥋</div>
               <div className="text-brand-gold text-xs font-body font-semibold uppercase tracking-[0.3em] mb-1">Head Master</div>
@@ -77,7 +76,7 @@ export default function HomePage() {
                   'National Master & Instructor License',
                   'National Referee',
                   'National Gold Medalist',
-                  'Experience since 1992 (30+ years)',
+                  'Experience since 1985 (40+ years)',
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3 text-brand-muted text-sm font-body">
                     <span className="text-brand-red shrink-0">▸</span>{item}
@@ -120,22 +119,32 @@ export default function HomePage() {
             title="White Belt to Black Belt"
             subtitle="Every colour is a milestone. Every grade is earned. Join the journey."
           />
-          <div className="flex flex-wrap justify-center gap-4 mt-4">
+          <div className="flex flex-wrap justify-center gap-6 mt-8">
             {[
-              { color: '#FFFFFF', label: 'White',  border: true },
-              { color: '#FFFF00', label: 'Yellow' },
-              { color: '#FFA500', label: 'Orange' },
-              { color: '#008000', label: 'Green' },
-              { color: '#0000FF', label: 'Blue' },
-              { color: '#800080', label: 'Purple' },
-              { color: '#8B4513', label: 'Brown' },
-              { color: '#FF0000', label: 'Red' },
-              { color: '#000000', label: 'Black',  border: true },
+              { color: '#FFFFFF', label: '10th KUP', border: true },
+              { color: '#FFFF00', label: '9th Kup' },
+              { color: '#FFFF00', label: '8th Kup' },
+              { color: '#FFFF00', label: '7th Kup' },
+              { color: '#008000', label: '6th Kup' },
+              { color: '#008000', label: '5th Kup' },
+              { color: '#0000FF', label: '4th Kup' },
+              { color: '#0000FF', label: '3rd Kup' },
+              { color: '#FF0000', label: '2nd Kup' },
+              { color: '#FF0000', label: '1st Kup' },
+              { color: '#000000', label: '1st Dan', border: true },
+              { color: '#000000', label: '2nd Dan', border: true },
+              { color: '#000000', label: '3rd Dan', border: true },
+              { color: '#000000', label: '4th Dan', border: true },
+              { color: '#000000', label: '5th Dan Master', border: true },
             ].map(({ color, label, border }) => (
               <div key={label} className="flex flex-col items-center gap-2">
-                <div className={`w-12 h-5 rounded-sm shadow-sm ${border ? 'border border-gray-300' : ''}`}
-                  style={{ backgroundColor: color }} />
-                <span className="text-brand-muted text-[10px] font-body uppercase tracking-wider">{label}</span>
+                <div
+                  className={`w-14 h-5 rounded-sm shadow-sm ${border ? 'border border-gray-300' : ''}`}
+                  style={{ backgroundColor: color }}
+                />
+                <span className="text-brand-muted text-[10px] font-body uppercase tracking-wider text-center whitespace-nowrap">
+                  {label}
+                </span>
               </div>
             ))}
           </div>
