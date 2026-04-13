@@ -5,6 +5,8 @@ import GalleryGrid from '@/components/GalleryGrid';
 import SectionHeading from '@/components/SectionHeading';
 import BeltSection from '@/components/BeltSection';
 import YouTubeSection from '@/components/YouTubeSection';
+import TaekwondoMeaning from '@/components/TaekwondoMeaning';
+import HeroOffsetWrapper from '@/components/HeroOffsetWrapper';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -14,8 +16,10 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────── */}
-      <HeroSlider slides={slides} />
+      {/* ── Hero — pushed below announcement bars + navbar ── */}
+      <HeroOffsetWrapper>
+        <HeroSlider slides={slides} />
+      </HeroOffsetWrapper>
 
       {/* ── Stats bar ────────────────────────── */}
       <div className="bg-brand-red">
@@ -64,8 +68,6 @@ export default function HomePage() {
               </svg>
             </Link>
           </div>
-
-          {/* Master card */}
           <div className="card-pro p-8 rounded-sm relative overflow-hidden">
             <div className="relative z-10">
               <div className="w-20 h-20 rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center mb-5 text-3xl">🥋</div>
@@ -89,6 +91,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── What does Taekwondo mean ──────────── */}
+      <TaekwondoMeaning />
 
       {/* ── Events ───────────────────────────── */}
       <section className="py-24 px-6 bg-brand-gray">
