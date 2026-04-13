@@ -118,8 +118,16 @@ export function getAnnouncements(): Announcement[] {
   return getAll('announcements')
     .filter((a) => a.active !== false)
     .sort((a, b) => {
+      // 1. Pinned always before unpinned
       if (a.pinned && !b.pinned) return -1;
       if (!a.pinned && b.pinned) return 1;
+      // 2. Within same group: explicit order takes priority
+      const aOrder = (a.order != null && a.order !== '') ? Number(a.order) : null;
+      const bOrder = (b.order != null && b.order !== '') ? Number(b.order) : null;
+      if (aOrder !== null && bOrder !== null) return aOrder - bOrder;
+      if (aOrder !== null) return -1;
+      if (bOrder !== null) return 1;
+      // 3. No order set — sort by date descending
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     }) as Announcement[];
 }
