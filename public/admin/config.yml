@@ -29,6 +29,14 @@ collections:
       - { label: Link Type, name: link_type, widget: select, options: [none, url, pdf], default: none }
       - { label: URL, name: link, widget: string, required: false }
       - { label: PDF File, name: pdf, widget: file, required: false, media_folder: public/pdfs, public_folder: /pdfs }
+      - label: "Priority Order (optional)"
+        name: order
+        widget: number
+        required: false
+        hint: "Leave empty to sort by date. Set 1 for first, 2 for second. Pinned always shows before unpinned."
+        value_type: int
+        min: 1
+        max: 999
 
   - name: events
     label: Events
