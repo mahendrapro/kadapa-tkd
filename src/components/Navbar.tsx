@@ -1,11 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-
-interface NavbarProps {
-  hasAnnouncements: boolean;
-}
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -14,22 +9,29 @@ const navLinks = [
   { href: '/gallery', label: 'Gallery' },
 ];
 
-export default function Navbar({ hasAnnouncements }: NavbarProps) {
+export default function Navbar({ hasAnnouncements }: { hasAnnouncements: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [announcementHeight, setAnnouncementHeight] = useState(0);
+  const [topOffset, setTopOffset] = useState(0);
 
   useEffect(() => {
-    const updateHeight = () => {
-      const bar = document.querySelector('[data-announcement-bar]') as HTMLElement;
-      if (bar) setAnnouncementHeight(bar.offsetHeight);
-      else setAnnouncementHeight(0);
+    const measure = () => {
+      const bar = document.querySelector('[data-announcement-bar]') as HTMLElement | null;
+      setTopOffset(bar ? bar.offsetHeight : 0);
     };
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
-    // Re-check after a short delay for DOM to settle
-    const t = setTimeout(updateHeight, 300);
-    return () => { window.removeEventListener('resize', updateHeight); clearTimeout(t); };
+
+    // Measure immediately, then again after a short delay for render to settle
+    measure();
+    const t1 = setTimeout(measure, 100);
+    const t2 = setTimeout(measure, 500);
+
+    // Re-measure on resize
+    window.addEventListener('resize', measure);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener('resize', measure);
+    };
   }, [hasAnnouncements]);
 
   useEffect(() => {
@@ -43,11 +45,10 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
       className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm' : 'bg-white/90 backdrop-blur-sm shadow-sm shadow-black/5'
       }`}
-      style={{ top: `${announcementHeight}px` }}
+      style={{ top: `${topOffset}px` }}
     >
       <div className="belt-stripe w-full" />
       <nav className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-3 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 md:gap-3 group">
           <img
             src="/images/logo.png"
@@ -64,14 +65,10 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
           </div>
         </Link>
 
-        {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map(({ href, label }) => (
             <li key={href}>
-              <Link
-                href={href}
-                className="font-body text-xs uppercase tracking-widest font-semibold transition-all relative group text-brand-dark/70 hover:text-brand-red"
-              >
+              <Link href={href} className="font-body text-xs uppercase tracking-widest font-semibold transition-all relative group text-brand-dark/70 hover:text-brand-red">
                 {label}
                 <span className="absolute -bottom-1 left-0 h-0.5 bg-brand-red transition-all w-0 group-hover:w-full" />
               </Link>
@@ -80,8 +77,7 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
           <li>
             <a
               href="https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training"
-              target="_blank"
-              rel="noopener noreferrer"
+              target="_blank" rel="noopener noreferrer"
               className="bg-brand-red text-white px-5 py-2 text-xs font-body font-semibold uppercase tracking-widest hover:bg-red-700 transition-colors rounded-sm"
             >
               Join Now
@@ -89,7 +85,6 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
           </li>
         </ul>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden p-2 flex flex-col gap-1.5"
           aria-label="Menu"
@@ -101,13 +96,10 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
         </button>
       </nav>
 
-      {/* Mobile menu */}
       <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-96' : 'max-h-0'}`}>
         <div className="bg-white border-t border-gray-100 px-6 pb-6 flex flex-col gap-4 pt-4">
           {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
+            <Link key={href} href={href}
               className="text-sm uppercase tracking-widest font-semibold font-body transition-colors text-brand-dark/70 hover:text-brand-red"
               onClick={() => setMenuOpen(false)}
             >
@@ -116,8 +108,7 @@ export default function Navbar({ hasAnnouncements }: NavbarProps) {
           ))}
           <a
             href="https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training"
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer"
             className="bg-brand-red text-white text-center py-3 text-xs font-semibold uppercase tracking-widest rounded-sm"
             onClick={() => setMenuOpen(false)}
           >
