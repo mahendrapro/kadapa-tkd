@@ -2,11 +2,18 @@ backend:
   name: github
   repo: mahendrapro/kadapa-tkd
   branch: main
-  base_url: https://kadapa-tkd-oauth.vercel.app
+  auth_type: pkce
+  app_id: Ov23liooPpVksIMadrIA
 
 site_url: https://kadapa-tkd.vercel.app
+
+# Default media — images go here
 media_folder: public/images
 public_folder: /images
+
+# Allow larger files and better mobile support
+media_library:
+  max_file_size: 15728640
 
 collections:
   - name: announcements
@@ -24,7 +31,14 @@ collections:
       - { label: Active, name: active, widget: boolean, default: true }
       - { label: Link Type, name: link_type, widget: select, options: [none, url, pdf], default: none }
       - { label: URL, name: link, widget: string, required: false }
-      - { label: PDF File, name: pdf, widget: file, required: false, media_folder: public/pdfs, public_folder: /pdfs }
+      - label: PDF File
+        name: pdf
+        widget: file
+        required: false
+        media_folder: /public/pdfs
+        public_folder: /pdfs
+        media_library:
+          max_file_size: 15728640
 
   - name: events
     label: Events
@@ -51,7 +65,11 @@ collections:
     extension: md
     format: frontmatter
     fields:
-      - { label: Image, name: image, widget: image }
+      - label: Image
+        name: image
+        widget: image
+        media_library:
+          max_file_size: 15728640
       - { label: Caption, name: caption, widget: string, required: false }
       - { label: Show in Hero, name: show_in_hero, widget: boolean, default: false }
 
@@ -65,6 +83,39 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Subtitle, name: subtitle, widget: text }
-      - { label: Image, name: image, widget: image }
+      - label: Image
+        name: image
+        widget: image
+        media_library:
+          max_file_size: 15728640
       - { label: Button Text, name: button_text, widget: string, default: Join Training }
       - { label: Button Link, name: button_link, widget: string, default: "https://wa.me/918522833600" }
+
+  - name: videos
+    label: YouTube Videos
+    folder: content/videos
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: YouTube URL, name: url, widget: string, hint: "Paste full YouTube URL e.g. https://www.youtube.com/watch?v=xxxxx" }
+      - { label: Active, name: active, widget: boolean, default: true }
+
+  - name: settings
+    label: Site Settings
+    folder: content/settings
+    create: false
+    extension: md
+    format: frontmatter
+    files:
+      - label: Site Settings
+        name: site
+        file: content/settings/site.md
+        fields:
+          - label: Google Maps Embed URL
+            name: map_embed_url
+            widget: string
+            required: false
+            hint: "Go to Google Maps → Share → Embed a map → copy the src URL only"
