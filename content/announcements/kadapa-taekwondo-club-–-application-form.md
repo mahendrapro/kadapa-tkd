@@ -6,5 +6,5 @@ pinned: true
 active: true
 link_type: none
 link: ''
-pdf: pdfs/TAE KWON DO APPLICATION 2024.pdf
+pdf: public/pdfs/TAE KWON DO APPLICATION 2024.pdf
 ---
