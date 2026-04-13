@@ -84,10 +84,10 @@ export interface SiteSettings {
 }
 
 export function getHeroSlides(): HeroSlide[] {
-  const manual = sortByOrderThenDate(getAll('hero')) as HeroSlide[];
+  const manual = sortByOrderThenDate(getAll('hero')) as unknown as HeroSlide[];
 
   const fromGallery = sortByOrderThenDate(
-    (getAll('gallery') as GalleryItem[]).filter((g) => g.show_in_hero)
+    (getAll('gallery') as unknown as GalleryItem[]).filter((g) => g.show_in_hero)
   ).map((g: any) => ({
     title: 'Kadapa Tae Kwon Do Club',
     subtitle: g.caption || 'Training champions since 2010',
@@ -112,7 +112,7 @@ export function getEventPhotos(event: Event): string[] {
 }
 
 export function getGallery(): GalleryItem[] {
-  return sortByOrderThenDate(getAll('gallery')) as GalleryItem[];
+  return sortByOrderThenDate(getAll('gallery')) as unknown as GalleryItem[];
 }
 
 export function getAnnouncements(): Announcement[] {
@@ -128,7 +128,7 @@ export function getAnnouncements(): Announcement[] {
 export function getVideos(): VideoItem[] {
   return sortByOrderThenDate(
     (getAll('videos') as VideoItem[]).filter((v) => v.active !== false && v.url)
-  ) as VideoItem[];
+  ) as unknown as VideoItem[];
 }
 
 export function getSiteSettings(): SiteSettings {
