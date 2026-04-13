@@ -12,11 +12,29 @@ function getContentFiles(folder: string) {
 
 function parseFile(folder: string, filename: string) {
   const raw = fs.readFileSync(path.join(contentDir, folder, filename), 'utf-8');
-  return matter(raw).data;
+  const { data } = matter(raw);
+  return { ...data, _filename: filename };
 }
 
 function getAll(folder: string) {
   return getContentFiles(folder).map((f) => parseFile(folder, f));
+}
+
+// Sort: items with explicit order first (ascending), then rest by date desc or filename
+function sortByOrderThenDate(items: any[]) {
+  const withOrder = items
+    .filter((i) => i.order != null && i.order !== '')
+    .sort((a, b) => Number(a.order) - Number(b.order));
+
+  const withoutOrder = items
+    .filter((i) => i.order == null || i.order === '')
+    .sort((a, b) => {
+      // sort by date if available, else by filename
+      if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
+      return (a._filename || '').localeCompare(b._filename || '');
+    });
+
+  return [...withOrder, ...withoutOrder];
 }
 
 export interface HeroSlide {
@@ -66,19 +84,17 @@ export interface SiteSettings {
 }
 
 export function getHeroSlides(): HeroSlide[] {
-  const manual = (getAll('hero') as HeroSlide[])
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  const manual = sortByOrderThenDate(getAll('hero')) as HeroSlide[];
 
-  const fromGallery = (getAll('gallery') as GalleryItem[])
-    .filter((g) => g.show_in_hero)
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
-    .map((g) => ({
-      title: 'Kadapa Tae Kwon Do Club',
-      subtitle: g.caption || 'Training champions since 2010',
-      image: g.image,
-      button_text: 'Join Training',
-      button_link: 'https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training',
-    }));
+  const fromGallery = sortByOrderThenDate(
+    (getAll('gallery') as GalleryItem[]).filter((g) => g.show_in_hero)
+  ).map((g: any) => ({
+    title: 'Kadapa Tae Kwon Do Club',
+    subtitle: g.caption || 'Training champions since 2010',
+    image: g.image,
+    button_text: 'Join Training',
+    button_link: 'https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training',
+  }));
 
   return [...manual, ...fromGallery];
 }
@@ -96,8 +112,7 @@ export function getEventPhotos(event: Event): string[] {
 }
 
 export function getGallery(): GalleryItem[] {
-  return (getAll('gallery') as GalleryItem[])
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return sortByOrderThenDate(getAll('gallery')) as GalleryItem[];
 }
 
 export function getAnnouncements(): Announcement[] {
@@ -111,9 +126,9 @@ export function getAnnouncements(): Announcement[] {
 }
 
 export function getVideos(): VideoItem[] {
-  return (getAll('videos') as VideoItem[])
-    .filter((v) => v.active !== false && v.url)
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return sortByOrderThenDate(
+    (getAll('videos') as VideoItem[]).filter((v) => v.active !== false && v.url)
+  ) as VideoItem[];
 }
 
 export function getSiteSettings(): SiteSettings {
