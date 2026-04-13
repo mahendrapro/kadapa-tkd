@@ -4,7 +4,7 @@ date: 2026-04-12
 badge: INFO
 pinned: true
 active: true
-link_type: none
+link_type: pdf
 link: ''
 pdf: public/pdfs/TAE KWON DO APPLICATION 2024.pdf
 ---
