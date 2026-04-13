@@ -1,6 +1,6 @@
 ---
 title: Kadapa Taekwondo Club – Application Form
-date: 2026-03-01
+date: 2026-07-01
 badge: NEW
 pinned: true
 active: true
