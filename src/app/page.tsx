@@ -5,6 +5,7 @@ import GalleryGrid from '@/components/GalleryGrid';
 import SectionHeading from '@/components/SectionHeading';
 import BeltSection from '@/components/BeltSection';
 import Link from 'next/link';
+import YouTubeSection from '@/components/YouTubeSection';
 
 export default function HomePage() {
   const slides  = getHeroSlides();
