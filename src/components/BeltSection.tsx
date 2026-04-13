@@ -40,64 +40,48 @@ const categories = [
 
 export default function BeltSection() {
   return (
-    <section className="py-24 px-6 bg-brand-light section-watermark">
+    <section className="py-16 md:py-24 px-4 md:px-6 bg-brand-light section-watermark">
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-12">
+        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
           <div className="flex items-center gap-3 mb-3 justify-center">
             <div className="w-6 h-0.5 bg-brand-red" />
-            <span className="text-brand-red text-xs font-body font-semibold uppercase tracking-[0.3em]">
-              The Journey
-            </span>
+            <span className="text-brand-red text-xs font-body font-semibold uppercase tracking-[0.3em]">The Journey</span>
             <div className="w-6 h-0.5 bg-brand-red" />
           </div>
           <h2 className="font-display font-black text-3xl md:text-5xl leading-tight text-brand-dark">
             White Belt to Black Belt
           </h2>
-          <p className="mt-3 font-body leading-relaxed max-w-2xl text-base text-brand-muted">
+          <p className="mt-3 font-body leading-relaxed max-w-2xl text-sm md:text-base text-brand-muted">
             Every colour is a milestone. Every grade is earned. Join the journey.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        {/* 2 cols on mobile, 4 cols on desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10 md:mb-12">
           {categories.map((cat) => (
             <div key={cat.title}>
-              <h3 className="font-display font-bold text-brand-dark text-xs uppercase tracking-widest mb-5 text-center pb-2 border-b border-brand-red/30">
+              <h3 className="font-display font-bold text-brand-dark text-[10px] md:text-xs uppercase tracking-widest mb-4 text-center pb-2 border-b border-brand-red/30">
                 {cat.title}
               </h3>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3 md:gap-4">
                 {cat.belts.map(({ label, bg, border, stripe, stripes }) => (
                   <div key={label} className="flex flex-col items-center gap-1.5">
                     <div
                       className={`relative overflow-hidden w-full shadow-md ${border ? 'border border-gray-500' : ''}`}
-                      style={{ backgroundColor: bg, height: '32px', borderRadius: '3px' }}
+                      style={{ backgroundColor: bg, height: '28px', borderRadius: '3px' }}
                     >
-                      {/* Middle stripe for mixed belts */}
                       {stripe && (
-                        <div
-                          className="absolute left-0 right-0"
-                          style={{ top: '30%', bottom: '30%', backgroundColor: stripe }}
-                        />
+                        <div className="absolute left-0 right-0" style={{ top: '30%', bottom: '30%', backgroundColor: stripe }} />
                       )}
-                      {/* Gold stripes at right end for black belts */}
                       {stripes > 0 && (
-                        <div
-                          className="absolute top-0 bottom-0 right-0 flex items-center"
-                          style={{ gap: '3px', paddingRight: '6px', paddingLeft: '6px' }}
-                        >
+                        <div className="absolute top-0 bottom-0 right-0 flex items-center" style={{ gap: '3px', paddingRight: '5px', paddingLeft: '5px' }}>
                           {Array.from({ length: stripes }).map((_, i) => (
-                            <div
-                              key={i}
-                              style={{
-                                width: '5px',
-                                height: '100%',
-                                backgroundColor: '#FFD700',
-                              }}
-                            />
+                            <div key={i} style={{ width: '4px', height: '100%', backgroundColor: '#FFD700' }} />
                           ))}
                         </div>
                       )}
                     </div>
-                    <span className="text-brand-muted text-[10px] font-body uppercase tracking-wider text-center">
+                    <span className="text-brand-muted text-[9px] md:text-[10px] font-body uppercase tracking-wider text-center leading-tight">
                       {label}
                     </span>
                   </div>
@@ -110,9 +94,8 @@ export default function BeltSection() {
         <div className="text-center">
           <a
             href="https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-sm px-10 py-5 transition-colors"
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-brand-red hover:bg-red-700 text-white font-body font-semibold uppercase tracking-widest text-xs md:text-sm px-8 md:px-10 py-4 md:py-5 transition-colors"
           >
             Start Your Journey Today
           </a>
