@@ -57,8 +57,15 @@ collections:
     fields:
       - { label: Image, name: image, widget: image }
       - { label: Caption, name: caption, widget: string, required: false }
-      - { label: Show in Hero, name: show_in_hero, widget: boolean, default: false }
-      - { label: "Display Order (1 = first)", name: order, widget: number, default: 99, hint: "Set 1 to show first, 2 for second, etc. Default 99 means last." }
+      - { label: Show in Hero Slider, name: show_in_hero, widget: boolean, default: false }
+      - label: "Priority Order (optional)"
+        name: order
+        widget: number
+        required: false
+        hint: "Leave empty to sort by date. Set 1 for first, 2 for second etc. Use unique numbers — duplicates will show in any order."
+        value_type: int
+        min: 1
+        max: 999
 
   - name: hero
     label: Hero Slides
@@ -73,7 +80,14 @@ collections:
       - { label: Image, name: image, widget: image }
       - { label: Button Text, name: button_text, widget: string, default: Join Training }
       - { label: Button Link, name: button_link, widget: string, default: "https://wa.me/918522833600" }
-      - { label: "Display Order (1 = first)", name: order, widget: number, default: 99, hint: "Set 1 to show first, 2 for second, etc. Default 99 means last." }
+      - label: "Priority Order (optional)"
+        name: order
+        widget: number
+        required: false
+        hint: "Leave empty to use default order. Set 1 for first slide, 2 for second etc. Use unique numbers."
+        value_type: int
+        min: 1
+        max: 999
 
   - name: videos
     label: YouTube Videos
@@ -86,7 +100,14 @@ collections:
       - { label: Title, name: title, widget: string }
       - { label: YouTube URL, name: url, widget: string, hint: "Paste full YouTube URL e.g. https://www.youtube.com/watch?v=xxxxx" }
       - { label: Active, name: active, widget: boolean, default: true }
-      - { label: "Display Order (1 = first)", name: order, widget: number, default: 99, hint: "Set 1 to show first, 2 for second, etc." }
+      - label: "Priority Order (optional)"
+        name: order
+        widget: number
+        required: false
+        hint: "Leave empty for default order. Set 1 for first, 2 for second etc."
+        value_type: int
+        min: 1
+        max: 999
 
   - name: settings
     label: Site Settings
