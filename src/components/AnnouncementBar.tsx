@@ -9,6 +9,23 @@ const BADGE: Record<string, string> = {
   INFO:   'bg-gray-200 text-gray-700 text-[10px] font-bold px-1.5 py-0.5',
 };
 
+function resolveHref(item: Announcement): string | null {
+  if (item.link_type === 'pdf' && item.pdf) {
+    // Normalize PDF path — handle all possible formats CMS might save
+    const raw = item.pdf;
+    if (raw.startsWith('http')) return raw;
+    // Strip leading slash or 'public/' prefix if present
+    const cleaned = raw
+      .replace(/^\/+/, '')          // remove leading slashes
+      .replace(/^public\//, '');    // remove 'public/' prefix
+    return '/' + cleaned;           // ensure single leading slash
+  }
+  if (item.link_type === 'url' && item.link) {
+    return item.link;
+  }
+  return null;
+}
+
 export default function AnnouncementBar({ announcements }: { announcements: Announcement[] }) {
   const [dismissed, setDismissed] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -19,8 +36,19 @@ export default function AnnouncementBar({ announcements }: { announcements: Anno
   const rolling = announcements;
 
   const renderLink = (item: Announcement, children: React.ReactNode) => {
-    const href = item.link_type === 'pdf' ? item.pdf : item.link;
-    if (href) return <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{children}</a>;
+    const href = resolveHref(item);
+    if (href) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          {children}
+        </a>
+      );
+    }
     return <span>{children}</span>;
   };
 
@@ -35,7 +63,7 @@ export default function AnnouncementBar({ announcements }: { announcements: Anno
             <span className="text-white text-[11px] md:text-xs font-body truncate">
               {item.title}
               {item.link_type === 'pdf' && <span className="ml-1 text-white/70 text-[10px]">📄</span>}
-              {item.link && item.link_type !== 'none' && <span className="ml-1 text-white/60 text-[10px]">↗</span>}
+              {item.link_type === 'url' && item.link && <span className="ml-1 text-white/60 text-[10px]">↗</span>}
             </span>
           )}
         </div>
