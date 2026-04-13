@@ -75,7 +75,7 @@ export default function HeroSlider({ slides }: { slides: HeroSlide[] }) {
               <div className="absolute left-0 top-0 bottom-0 w-1 md:w-1.5 bg-brand-red" />
 
               {/* Content */}
-              <div className="relative z-10 w-full px-5 md:px-16 max-w-7xl mx-auto" style={{ paddingTop: '80px', paddingBottom: '60px' }}>
+              <div className="relative z-10 w-full px-5 md:px-16 max-w-7xl mx-auto" style={{ paddingTop: '120px', paddingBottom: '60px' }}>
                 <div className="max-w-xl">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-6 md:w-10 h-0.5 bg-brand-red" />
