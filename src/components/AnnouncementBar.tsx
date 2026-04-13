@@ -11,18 +11,12 @@ const BADGE: Record<string, string> = {
 
 function resolveHref(item: Announcement): string | null {
   if (item.link_type === 'pdf' && item.pdf) {
-    // Normalize PDF path — handle all possible formats CMS might save
     const raw = item.pdf;
     if (raw.startsWith('http')) return raw;
-    // Strip leading slash or 'public/' prefix if present
-    const cleaned = raw
-      .replace(/^\/+/, '')          // remove leading slashes
-      .replace(/^public\//, '');    // remove 'public/' prefix
-    return '/' + cleaned;           // ensure single leading slash
+    const cleaned = raw.replace(/^\/+/, '').replace(/^public\//, '');
+    return '/' + cleaned;
   }
-  if (item.link_type === 'url' && item.link) {
-    return item.link;
-  }
+  if (item.link_type === 'url' && item.link) return item.link;
   return null;
 }
 
@@ -37,30 +31,19 @@ export default function AnnouncementBar({ announcements }: { announcements: Anno
 
   const renderLink = (item: Announcement, children: React.ReactNode) => {
     const href = resolveHref(item);
-    if (href) {
-      return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
-          {children}
-        </a>
-      );
-    }
+    if (href) return <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{children}</a>;
     return <span>{children}</span>;
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60]">
+    <div className="fixed top-0 left-0 right-0 z-[60]" data-announcement-bar>
       {pinned.map((item, i) => (
-        <div key={i} className="bg-brand-red border-b border-red-700 px-3 md:px-4 py-1 md:py-1.5 flex items-center gap-2 md:gap-3">
-          <span className="text-[9px] md:text-[10px] bg-white text-brand-red font-bold uppercase px-1.5 py-0.5 shrink-0">
+        <div key={i} className="bg-brand-red border-b border-red-700 px-3 py-1 flex items-center gap-2">
+          <span className="text-[9px] bg-white text-brand-red font-bold uppercase px-1.5 py-0.5 shrink-0">
             📌 PINNED
           </span>
           {renderLink(item,
-            <span className="text-white text-[11px] md:text-xs font-body truncate">
+            <span className="text-white text-[11px] font-body truncate">
               {item.title}
               {item.link_type === 'pdf' && <span className="ml-1 text-white/70 text-[10px]">📄</span>}
               {item.link_type === 'url' && item.link && <span className="ml-1 text-white/60 text-[10px]">↗</span>}
@@ -70,28 +53,23 @@ export default function AnnouncementBar({ announcements }: { announcements: Anno
       ))}
       <div
         className="bg-brand-blue flex items-stretch overflow-hidden border-b border-blue-900"
-        style={{ height: '28px' }}
+        style={{ height: '26px' }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
         <div className="shrink-0 bg-brand-red flex items-center px-2 md:px-4">
-          <span className="text-white text-[9px] md:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
-            📢 NEWS
-          </span>
+          <span className="text-white text-[9px] font-bold uppercase tracking-widest whitespace-nowrap">📢 NEWS</span>
         </div>
         <div className="relative flex-1 overflow-hidden flex items-center">
           <div
             className="flex items-center whitespace-nowrap"
-            style={{
-              animation: 'ticker 40s linear infinite',
-              animationPlayState: paused ? 'paused' : 'running',
-            }}
+            style={{ animation: 'ticker 40s linear infinite', animationPlayState: paused ? 'paused' : 'running' }}
           >
             {[...rolling, ...rolling].map((item, i) => (
               <span key={i} className="inline-flex items-center gap-1.5 px-4 md:px-8 text-white/90">
                 <span className={BADGE[item.badge] || BADGE.INFO}>{item.badge}</span>
                 {renderLink(item,
-                  <span className="text-[11px] md:text-xs font-body text-white/85 hover:text-white">
+                  <span className="text-[11px] font-body text-white/85 hover:text-white">
                     {item.title}
                     {item.link_type === 'pdf' && <span className="ml-1 text-white/50 text-[10px]">📄</span>}
                   </span>
