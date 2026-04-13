@@ -4,8 +4,8 @@ import EventCard from '@/components/EventCard';
 import GalleryGrid from '@/components/GalleryGrid';
 import SectionHeading from '@/components/SectionHeading';
 import BeltSection from '@/components/BeltSection';
-import Link from 'next/link';
 import YouTubeSection from '@/components/YouTubeSection';
+import Link from 'next/link';
 
 export default function HomePage() {
   const slides  = getHeroSlides();
@@ -115,6 +115,9 @@ export default function HomePage() {
 
       {/* ── Belt journey ─────────────────────── */}
       <BeltSection />
+
+      {/* ── YouTube Videos ───────────────────── */}
+      <YouTubeSection />
 
       {/* ── Gallery preview ───────────────────── */}
       <section className="py-24 px-6 bg-brand-gray">
