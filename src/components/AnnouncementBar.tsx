@@ -14,7 +14,7 @@ function resolveHref(item: Announcement): string | null {
     const raw = item.pdf;
     if (raw.startsWith('http')) return raw;
     const cleaned = raw.replace(/^\/+/, '').replace(/^public\//, '');
-    return '/' + cleaned;
+    return '/' + cleaned.split('/').map(encodeURIComponent).join('/');
   }
   if (item.link_type === 'url' && item.link) return item.link;
   return null;
