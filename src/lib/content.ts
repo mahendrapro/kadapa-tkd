@@ -10,18 +10,18 @@ function getContentFiles(folder: string) {
   return fs.readdirSync(dir).filter((f) => f.endsWith('.md'));
 }
 
-function parseFile(folder: string, filename: string) {
+function parseFile(folder: string, filename: string): any {
   const raw = fs.readFileSync(path.join(contentDir, folder, filename), 'utf-8');
   const { data } = matter(raw);
   return { ...data, _filename: filename };
 }
 
-function getAll(folder: string) {
+function getAll(folder: string): any[] {
   return getContentFiles(folder).map((f) => parseFile(folder, f));
 }
 
 // Sort: items with explicit order first (ascending), then rest by date desc or filename
-function sortByOrderThenDate(items: any[]) {
+function sortByOrderThenDate(items: Record<string, any>[]): Record<string, any>[] {
   const withOrder = items
     .filter((i) => i.order != null && i.order !== '')
     .sort((a, b) => Number(a.order) - Number(b.order));
@@ -29,7 +29,6 @@ function sortByOrderThenDate(items: any[]) {
   const withoutOrder = items
     .filter((i) => i.order == null || i.order === '')
     .sort((a, b) => {
-      // sort by date if available, else by filename
       if (a.date && b.date) return new Date(b.date).getTime() - new Date(a.date).getTime();
       return (a._filename || '').localeCompare(b._filename || '');
     });
@@ -84,14 +83,14 @@ export interface SiteSettings {
 }
 
 export function getHeroSlides(): HeroSlide[] {
-  const manual = sortByOrderThenDate(getAll('hero')) as unknown as HeroSlide[];
+  const manual = sortByOrderThenDate(getAll('hero')) as HeroSlide[];
 
   const fromGallery = sortByOrderThenDate(
-    (getAll('gallery') as unknown as GalleryItem[]).filter((g) => g.show_in_hero)
-  ).map((g: any) => ({
+    getAll('gallery').filter((g) => g.show_in_hero)
+  ).map((g) => ({
     title: 'Kadapa Tae Kwon Do Club',
-    subtitle: g.caption || 'Training champions since 2010',
-    image: g.image,
+    subtitle: (g.caption as string) || 'Training champions since 2010',
+    image: g.image as string,
     button_text: 'Join Training',
     button_link: 'https://wa.me/918522833600?text=Hello%20Sir,%20I%20want%20to%20join%20Taekwondo%20training',
   }));
@@ -100,8 +99,8 @@ export function getHeroSlides(): HeroSlide[] {
 }
 
 export function getEvents(): Event[] {
-  return (getAll('events') as Event[])
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return getAll('events')
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) as Event[];
 }
 
 export function getEventPhotos(event: Event): string[] {
@@ -112,23 +111,23 @@ export function getEventPhotos(event: Event): string[] {
 }
 
 export function getGallery(): GalleryItem[] {
-  return sortByOrderThenDate(getAll('gallery')) as unknown as GalleryItem[];
+  return sortByOrderThenDate(getAll('gallery')) as GalleryItem[];
 }
 
 export function getAnnouncements(): Announcement[] {
-  return (getAll('announcements') as Announcement[])
+  return getAll('announcements')
     .filter((a) => a.active !== false)
     .sort((a, b) => {
       if (a.pinned && !b.pinned) return -1;
       if (!a.pinned && b.pinned) return 1;
       return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
+    }) as Announcement[];
 }
 
 export function getVideos(): VideoItem[] {
   return sortByOrderThenDate(
-    (getAll('videos') as VideoItem[]).filter((v) => v.active !== false && v.url)
-  ) as unknown as VideoItem[];
+    getAll('videos').filter((v) => v.active !== false && v.url)
+  ) as VideoItem[];
 }
 
 export function getSiteSettings(): SiteSettings {
