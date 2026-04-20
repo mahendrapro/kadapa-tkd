@@ -19,5 +19,10 @@ description: |-
   #Taekwondo, #Kadapa, #Martial Arts, #Training Session, #Sparring Practice, #Fitness, #Self Defense, #Kids Training, #Sports Event
 photos:
   - /images/WhatsApp Image 2026-04-19 at 18.08.24 (1).jpeg
-image: ''
+  - /images/WhatsApp Image 2026-04-19 at 18.08.15 (1).jpeg
+  - /images/WhatsApp Image 2026-04-19 at 18.08.15.jpeg
+  - /images/WhatsApp Image 2026-04-19 at 18.08.23.jpeg
+  - /images/WhatsApp Image 2026-04-19 at 18.08.24.jpeg
+  - /images/WhatsApp Image 2026-04-19 at 18.08.19.jpeg
+image: /images/WhatsApp Image 2026-04-19 at 18.08.18.jpeg
 ---
