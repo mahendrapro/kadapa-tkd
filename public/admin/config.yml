@@ -3,8 +3,7 @@ backend:
   repo: mahendrapro/kadapa-tkd
   branch: main
   base_url: https://kadapa-tkd-oauth.vercel.app
-
-site_url: https://kadapa-tkd.vercel.app
+  site_url: https://kadapa-tkd.vercel.app
 
 media_folder: public/images
 public_folder: /images
@@ -52,35 +51,30 @@ collections:
       - label: Event Photos
         name: photos
         widget: list
-        field: { label: Photo, name: image, widget: image }
+        field:
+          { label: Photo, name: image, widget: image }
       - { label: Cover Image, name: image, widget: image, required: false }
 
-- name: gallery
-  label: Gallery
-  folder: content/gallery
-  create: true
-  slug: "{{slug}}"
-  extension: md
-  format: frontmatter
-  fields:
-    - { label: Media Type, name: type, widget: select, options: ["image", "video"], default: "image" }
+  - name: gallery
+    label: Gallery
+    folder: content/gallery
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Image, name: image, widget: image }
+      - { label: Caption, name: caption, widget: string, required: false }
+      - { label: Show in Hero Slider, name: show_in_hero, widget: boolean, default: false }
+      - label: "Priority Order (optional)"
+        name: order
+        widget: number
+        required: false
+        hint: "Leave empty to sort by date. Set 1 for first, 2 for second etc. Use unique numbers — duplicates will show in any order."
+        value_type: int
+        min: 1
+        max: 999
 
-    - { label: Image, name: image, widget: image, required: false }
-
-    - { label: Video File, name: video, widget: file, required: false,
-        hint: "Upload MP4 video (recommended under 15MB)" }
-
-    - { label: Caption, name: caption, widget: string, required: false }
-
-    - { label: Show in Hero Slider, name: show_in_hero, widget: boolean, default: false }
-
-    - label: "Priority Order (optional)"
-      name: order
-      widget: number
-      required: false
-      value_type: int
-      min: 1
-      max: 999
   - name: hero
     label: Hero Slides
     folder: content/hero
@@ -92,7 +86,7 @@ collections:
       - { label: Title, name: title, widget: string }
       - { label: Subtitle, name: subtitle, widget: text }
       - { label: Image, name: image, widget: image }
-      - { label: Button Text, name: button_text, widget: string, default: Join Training }
+      - { label: Button Text, name: button_text, widget: string, default: "Join Training" }
       - { label: Button Link, name: button_link, widget: string, default: "https://wa.me/918522833600" }
       - label: "Priority Order (optional)"
         name: order
