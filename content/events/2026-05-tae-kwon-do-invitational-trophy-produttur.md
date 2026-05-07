@@ -6,6 +6,16 @@ description: |-
   Our winners were honored with medals and mementos by our respected Grand Master Nagoor Master Garu in Proddatur City, Kadapa District.
   Congratulations to all the participants, students, parents, and coaches for their hard work and dedication. Keep shining and bringing more glory to our team! 💪🔥
 photos:
-  - /images/IMG-20260320-WA0013.jpg
-image: /images/IMG-20260320-WA0008.jpg
+  - /images/IMG-20260504-WA0008.jpg
+  - /images/IMG-20260504-WA0012.jpg
+  - /images/IMG-20260504-WA0009.jpg
+  - /images/IMG-20260504-WA0006.jpg
+  - /images/IMG-20260504-WA0004.jpg
+  - /images/IMG-20260504-WA0005.jpg
+  - /images/IMG-20260504-WA0001.jpg
+  - /images/IMG-20260504-WA0016.jpg
+  - /images/IMG-20260504-WA0022.jpg
+  - /images/IMG-20260504-WA0025.jpg
+  - /images/IMG-20260504-WA0010.jpg
+image: /images/IMG-20260504-WA0005.jpg
 ---
