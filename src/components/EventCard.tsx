@@ -18,13 +18,8 @@ export default function EventCard({ title, date, description, images, isUpcoming
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Prevent body scroll when modal is open
   useEffect(() => {
-    if (modalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = modalOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [modalOpen]);
 
@@ -94,102 +89,102 @@ export default function EventCard({ title, date, description, images, isUpcoming
             zIndex: 1000,
             backgroundColor: 'rgba(0,0,0,0.75)',
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'center',
-            overflowY: 'auto',
             padding: '16px',
           }}
         >
+          {/* Modal box — fixed height with internal scroll */}
           <div
             style={{
               width: '100%',
-              maxWidth: '860px',
+              maxWidth: '800px',
+              maxHeight: '90vh',         /* never taller than 90% of screen */
               backgroundColor: '#ffffff',
               borderRadius: '4px',
               overflow: 'hidden',
-              margin: 'auto',
-              boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+              display: 'flex',
+              flexDirection: 'column',  /* header fixed, body scrolls, footer fixed */
+              boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
             }}
           >
-            {/* Header */}
-            <div style={{ backgroundColor: '#0f172a', padding: '20px 24px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px' }}>
+            {/* ── Fixed Header ── */}
+            <div style={{ backgroundColor: '#0f172a', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', flexShrink: 0 }}>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                   <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                     {isUpcoming ? 'Upcoming' : 'Completed'}
                   </span>
-                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>
+                  <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px' }}>
                     📅 {day} {month[0] + month.slice(1).toLowerCase()} {year}
                   </span>
                 </div>
-                <h2 style={{ color: 'white', fontSize: 'clamp(1.1rem, 3vw, 1.5rem)', fontWeight: '900', margin: 0, lineHeight: 1.3 }}>
+                <h2 style={{ color: 'white', fontSize: 'clamp(1rem, 2.5vw, 1.4rem)', fontWeight: '900', margin: 0, lineHeight: 1.3 }}>
                   {title}
                 </h2>
               </div>
               <button
                 onClick={() => setModalOpen(false)}
-                style={{ flexShrink: 0, width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.5)', backgroundColor: 'rgba(255,255,255,0.1)', border: 'none', cursor: 'pointer', borderRadius: '2px', fontSize: '16px' }}
+                style={{ flexShrink: 0, width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.6)', backgroundColor: 'rgba(255,255,255,0.1)', border: 'none', cursor: 'pointer', borderRadius: '2px', fontSize: '16px' }}
               >✕</button>
             </div>
 
-            {/* Description */}
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#f8f7f4' }}>
-              <p style={{ margin: 0, color: '#374151', fontSize: '14px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
-                {description}
-              </p>
+            {/* ── Scrollable Body ── */}
+            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+
+              {/* Description */}
+              <div style={{ padding: '16px 20px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#f8f7f4' }}>
+                <p style={{ margin: 0, color: '#374151', fontSize: '13px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
+                  {description}
+                </p>
+              </div>
+
+              {/* Photos */}
+              {images.length > 0 && (
+                <div style={{ padding: '16px 20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0f172a' }}>Photos</span>
+                    <span style={{ color: '#6b7280', fontSize: '11px' }}>({images.length})</span>
+                    <span style={{ color: '#9ca3af', fontSize: '11px' }}>· Click to view full size</span>
+                  </div>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+                    gap: '6px',
+                  }}>
+                    {images.map((src, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
+                        style={{
+                          aspectRatio: '1',
+                          overflow: 'hidden',
+                          border: 'none',
+                          padding: 0,
+                          cursor: 'pointer',
+                          borderRadius: '2px',
+                          backgroundColor: '#e5e7eb',
+                        }}
+                      >
+                        <img
+                          src={src}
+                          alt={`${title} ${i + 1}`}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Photos */}
-            {images.length > 0 && (
-              <div style={{ padding: '20px 24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                  <span style={{ fontWeight: '700', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0f172a' }}>Photos</span>
-                  <span style={{ color: '#6b7280', fontSize: '12px' }}>({images.length})</span>
-                  <span style={{ color: '#9ca3af', fontSize: '11px' }}>· Click to view full size</span>
-                </div>
-                {/* Responsive grid */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-                  gap: '8px',
-                }}>
-                  {images.map((src, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
-                      style={{
-                        position: 'relative',
-                        aspectRatio: '1',
-                        overflow: 'hidden',
-                        border: 'none',
-                        padding: 0,
-                        cursor: 'pointer',
-                        borderRadius: '2px',
-                        backgroundColor: '#e5e7eb',
-                      }}
-                    >
-                      <img
-                        src={src}
-                        alt={`${title} photo ${i + 1}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.3s' }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-                        onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Footer */}
-            <div style={{ padding: '12px 24px', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ color: '#9ca3af', fontSize: '12px' }}>Kadapa Tae Kwon Do Club</span>
+            {/* ── Fixed Footer ── */}
+            <div style={{ padding: '10px 20px', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+              <span style={{ color: '#9ca3af', fontSize: '11px' }}>Kadapa Tae Kwon Do Club</span>
               <button
                 onClick={() => setModalOpen(false)}
-                style={{ backgroundColor: '#dc2626', color: 'white', border: 'none', padding: '8px 20px', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', cursor: 'pointer' }}
-              >
-                Close
-              </button>
+                style={{ backgroundColor: '#dc2626', color: 'white', border: 'none', padding: '7px 18px', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', cursor: 'pointer', borderRadius: '2px' }}
+              >Close</button>
             </div>
           </div>
         </div>
