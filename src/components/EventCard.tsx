@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
@@ -9,11 +9,24 @@ interface EventCardProps {
   description: string;
   images: string[];
   isUpcoming: boolean;
+  youtubeUrl?: string;
 }
 
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
-export default function EventCard({ title, date, description, images, isUpcoming }: EventCardProps) {
+function extractVideoId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.searchParams.get('v')) return u.searchParams.get('v');
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1);
+    if (u.pathname.startsWith('/embed/')) return u.pathname.split('/embed/')[1];
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export default function EventCard({ title, date, description, images, isUpcoming, youtubeUrl }: EventCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -21,7 +34,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
 
   useEffect(() => {
     if (modalOpen) {
-      // Measure fixed bars height so modal sits below them
       const bar = document.querySelector('[data-announcement-bar="true"]') as HTMLElement | null;
       const nav = document.querySelector('header') as HTMLElement | null;
       setTopOffset((bar?.offsetHeight ?? 0) + (nav?.offsetHeight ?? 0));
@@ -38,6 +50,7 @@ export default function EventCard({ title, date, description, images, isUpcoming
   const year = d.getFullYear();
   const cover = images[0] || '';
   const slides = images.map((src) => ({ src }));
+  const videoId = youtubeUrl ? extractVideoId(youtubeUrl) : null;
 
   return (
     <>
@@ -60,11 +73,19 @@ export default function EventCard({ title, date, description, images, isUpcoming
           }`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
           </div>
-          {images.length > 1 && (
-            <div className="absolute bottom-2 right-2 z-10 bg-black/50 text-white text-[10px] font-body px-2 py-0.5">
-              📷 {images.length}
-            </div>
-          )}
+          {/* Badges row */}
+          <div className="absolute bottom-2 right-2 z-10 flex items-center gap-1">
+            {videoId && (
+              <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', padding: '2px 6px', fontWeight: 'bold' }}>
+                ▶ VIDEO
+              </span>
+            )}
+            {images.length > 1 && (
+              <span style={{ backgroundColor: 'rgba(0,0,0,0.5)', color: 'white', fontSize: '10px', padding: '2px 6px' }}>
+                📷 {images.length}
+              </span>
+            )}
+          </div>
           <div className="absolute inset-0 bg-brand-red/0 group-hover:bg-brand-red/10 transition-all flex items-center justify-center">
             <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-xs font-body px-3 py-1.5 rounded-sm">
               View Full Event →
@@ -94,7 +115,7 @@ export default function EventCard({ title, date, description, images, isUpcoming
           onClick={(e) => { if (e.target === e.currentTarget) setModalOpen(false); }}
           style={{
             position: 'fixed',
-            top: `${topOffset}px`,   /* starts below announcement bars + navbar */
+            top: `${topOffset}px`,
             left: 0,
             right: 0,
             bottom: 0,
@@ -118,15 +139,8 @@ export default function EventCard({ title, date, description, images, isUpcoming
               marginBottom: '16px',
             }}
           >
-            {/* Header — always visible at top */}
-            <div style={{
-              backgroundColor: '#0f172a',
-              padding: '14px 18px',
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'space-between',
-              gap: '12px',
-            }}>
+            {/* Header */}
+            <div style={{ backgroundColor: '#0f172a', padding: '14px 18px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                   <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
@@ -135,6 +149,11 @@ export default function EventCard({ title, date, description, images, isUpcoming
                   <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px' }}>
                     📅 {day} {month[0] + month.slice(1).toLowerCase()} {year}
                   </span>
+                  {videoId && (
+                    <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px' }}>
+                      ▶ VIDEO
+                    </span>
+                  )}
                 </div>
                 <h2 style={{ color: 'white', fontSize: 'clamp(1rem, 2.5vw, 1.3rem)', fontWeight: '900', margin: 0, lineHeight: 1.3 }}>
                   {title}
@@ -153,6 +172,28 @@ export default function EventCard({ title, date, description, images, isUpcoming
               </p>
             </div>
 
+            {/* YouTube Video Embed */}
+            {videoId && (
+              <div style={{ padding: '16px 18px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#0f172a' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                  <svg style={{ width: '16px', height: '16px', color: '#dc2626', flexShrink: 0 }} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'white' }}>Event Video</span>
+                </div>
+                {/* 16:9 responsive iframe */}
+                <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px' }}>
+                  <iframe
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title={`${title} video`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Photos */}
             {images.length > 0 && (
               <div style={{ padding: '16px 18px' }}>
@@ -161,22 +202,15 @@ export default function EventCard({ title, date, description, images, isUpcoming
                   <span style={{ color: '#6b7280', fontSize: '11px' }}>({images.length})</span>
                   <span style={{ color: '#9ca3af', fontSize: '11px' }}>· Click to view full size</span>
                 </div>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
-                  gap: '6px',
-                }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '6px' }}>
                   {images.map((src, i) => (
                     <button
                       key={i}
                       onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
                       style={{ aspectRatio: '1', overflow: 'hidden', border: 'none', padding: 0, cursor: 'pointer', borderRadius: '2px', backgroundColor: '#e5e7eb' }}
                     >
-                      <img
-                        src={src}
-                        alt={`${title} ${i + 1}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
+                      <img src={src} alt={`${title} ${i + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                     </button>
                   ))}
                 </div>
