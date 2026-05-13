@@ -51,6 +51,7 @@ export interface Event {
   description: string;
   image?: string;
   photos?: string[];
+  youtube_url?: string;
 }
 
 export interface GalleryItem {
