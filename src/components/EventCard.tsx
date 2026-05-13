@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
@@ -17,9 +17,18 @@ export default function EventCard({ title, date, description, images, isUpcoming
   const [modalOpen, setModalOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [topOffset, setTopOffset] = useState(0);
 
   useEffect(() => {
-    document.body.style.overflow = modalOpen ? 'hidden' : '';
+    if (modalOpen) {
+      // Measure fixed bars height so modal sits below them
+      const bar = document.querySelector('[data-announcement-bar="true"]') as HTMLElement | null;
+      const nav = document.querySelector('header') as HTMLElement | null;
+      setTopOffset((bar?.offsetHeight ?? 0) + (nav?.offsetHeight ?? 0));
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     return () => { document.body.style.overflow = ''; };
   }, [modalOpen]);
 
@@ -85,31 +94,39 @@ export default function EventCard({ title, date, description, images, isUpcoming
           onClick={(e) => { if (e.target === e.currentTarget) setModalOpen(false); }}
           style={{
             position: 'fixed',
-            inset: 0,
-            zIndex: 1000,
+            top: `${topOffset}px`,   /* starts below announcement bars + navbar */
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999,
             backgroundColor: 'rgba(0,0,0,0.75)',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             justifyContent: 'center',
             padding: '16px',
+            overflowY: 'auto',
           }}
         >
-          {/* Modal box — fixed height with internal scroll */}
           <div
             style={{
               width: '100%',
-              maxWidth: '800px',
-              maxHeight: '90vh',         /* never taller than 90% of screen */
+              maxWidth: '780px',
               backgroundColor: '#ffffff',
               borderRadius: '4px',
               overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',  /* header fixed, body scrolls, footer fixed */
               boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+              marginBottom: '16px',
             }}
           >
-            {/* ── Fixed Header ── */}
-            <div style={{ backgroundColor: '#0f172a', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', flexShrink: 0 }}>
+            {/* Header — always visible at top */}
+            <div style={{
+              backgroundColor: '#0f172a',
+              padding: '14px 18px',
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'space-between',
+              gap: '12px',
+            }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                   <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
@@ -119,7 +136,7 @@ export default function EventCard({ title, date, description, images, isUpcoming
                     📅 {day} {month[0] + month.slice(1).toLowerCase()} {year}
                   </span>
                 </div>
-                <h2 style={{ color: 'white', fontSize: 'clamp(1rem, 2.5vw, 1.4rem)', fontWeight: '900', margin: 0, lineHeight: 1.3 }}>
+                <h2 style={{ color: 'white', fontSize: 'clamp(1rem, 2.5vw, 1.3rem)', fontWeight: '900', margin: 0, lineHeight: 1.3 }}>
                   {title}
                 </h2>
               </div>
@@ -129,57 +146,45 @@ export default function EventCard({ title, date, description, images, isUpcoming
               >✕</button>
             </div>
 
-            {/* ── Scrollable Body ── */}
-            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
-
-              {/* Description */}
-              <div style={{ padding: '16px 20px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#f8f7f4' }}>
-                <p style={{ margin: 0, color: '#374151', fontSize: '13px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
-                  {description}
-                </p>
-              </div>
-
-              {/* Photos */}
-              {images.length > 0 && (
-                <div style={{ padding: '16px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                    <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0f172a' }}>Photos</span>
-                    <span style={{ color: '#6b7280', fontSize: '11px' }}>({images.length})</span>
-                    <span style={{ color: '#9ca3af', fontSize: '11px' }}>· Click to view full size</span>
-                  </div>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-                    gap: '6px',
-                  }}>
-                    {images.map((src, i) => (
-                      <button
-                        key={i}
-                        onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
-                        style={{
-                          aspectRatio: '1',
-                          overflow: 'hidden',
-                          border: 'none',
-                          padding: 0,
-                          cursor: 'pointer',
-                          borderRadius: '2px',
-                          backgroundColor: '#e5e7eb',
-                        }}
-                      >
-                        <img
-                          src={src}
-                          alt={`${title} ${i + 1}`}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+            {/* Description */}
+            <div style={{ padding: '16px 18px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#f8f7f4' }}>
+              <p style={{ margin: 0, color: '#374151', fontSize: '13px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
+                {description}
+              </p>
             </div>
 
-            {/* ── Fixed Footer ── */}
-            <div style={{ padding: '10px 20px', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+            {/* Photos */}
+            {images.length > 0 && (
+              <div style={{ padding: '16px 18px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                  <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0f172a' }}>Photos</span>
+                  <span style={{ color: '#6b7280', fontSize: '11px' }}>({images.length})</span>
+                  <span style={{ color: '#9ca3af', fontSize: '11px' }}>· Click to view full size</span>
+                </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+                  gap: '6px',
+                }}>
+                  {images.map((src, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
+                      style={{ aspectRatio: '1', overflow: 'hidden', border: 'none', padding: 0, cursor: 'pointer', borderRadius: '2px', backgroundColor: '#e5e7eb' }}
+                    >
+                      <img
+                        src={src}
+                        alt={`${title} ${i + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div style={{ padding: '10px 18px', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ color: '#9ca3af', fontSize: '11px' }}>Kadapa Tae Kwon Do Club</span>
               <button
                 onClick={() => setModalOpen(false)}
