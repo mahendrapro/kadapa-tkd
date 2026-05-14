@@ -9,7 +9,7 @@ interface EventCardProps {
   description: string;
   images: string[];
   isUpcoming: boolean;
-  youtubeUrl?: string;
+  youtubeUrls?: string[];
 }
 
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -26,7 +26,7 @@ function extractVideoId(url: string): string | null {
   }
 }
 
-export default function EventCard({ title, date, description, images, isUpcoming, youtubeUrl }: EventCardProps) {
+export default function EventCard({ title, date, description, images, isUpcoming, youtubeUrls }: EventCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -50,7 +50,13 @@ export default function EventCard({ title, date, description, images, isUpcoming
   const year = d.getFullYear();
   const cover = images[0] || '';
   const slides = images.map((src) => ({ src }));
-  const videoId = youtubeUrl ? extractVideoId(youtubeUrl) : null;
+
+  // Filter to only valid video IDs
+  const validVideos = (youtubeUrls || [])
+    .map((url) => ({ url, id: extractVideoId(url) }))
+    .filter((v) => v.id !== null) as { url: string; id: string }[];
+
+  const hasVideos = validVideos.length > 0;
 
   return (
     <>
@@ -73,11 +79,10 @@ export default function EventCard({ title, date, description, images, isUpcoming
           }`}>
             {isUpcoming ? 'Upcoming' : 'Completed'}
           </div>
-          {/* Badges row */}
           <div className="absolute bottom-2 right-2 z-10 flex items-center gap-1">
-            {videoId && (
+            {hasVideos && (
               <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', padding: '2px 6px', fontWeight: 'bold' }}>
-                ▶ VIDEO
+                ▶ {validVideos.length > 1 ? `${validVideos.length} VIDEOS` : 'VIDEO'}
               </span>
             )}
             {images.length > 1 && (
@@ -128,30 +133,21 @@ export default function EventCard({ title, date, description, images, isUpcoming
             overflowY: 'auto',
           }}
         >
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '780px',
-              backgroundColor: '#ffffff',
-              borderRadius: '4px',
-              overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
-              marginBottom: '16px',
-            }}
-          >
+          <div style={{ width: '100%', maxWidth: '780px', backgroundColor: '#ffffff', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.5)', marginBottom: '16px' }}>
+
             {/* Header */}
             <div style={{ backgroundColor: '#0f172a', padding: '14px 18px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
                   <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                     {isUpcoming ? 'Upcoming' : 'Completed'}
                   </span>
                   <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px' }}>
                     📅 {day} {month[0] + month.slice(1).toLowerCase()} {year}
                   </span>
-                  {videoId && (
+                  {hasVideos && (
                     <span style={{ backgroundColor: '#dc2626', color: 'white', fontSize: '10px', fontWeight: 'bold', padding: '2px 8px' }}>
-                      ▶ VIDEO
+                      ▶ {validVideos.length} VIDEO{validVideos.length > 1 ? 'S' : ''}
                     </span>
                   )}
                 </div>
@@ -172,24 +168,39 @@ export default function EventCard({ title, date, description, images, isUpcoming
               </p>
             </div>
 
-            {/* YouTube Video Embed */}
-            {videoId && (
-              <div style={{ padding: '16px 18px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#0f172a' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                  <svg style={{ width: '16px', height: '16px', color: '#dc2626', flexShrink: 0 }} viewBox="0 0 24 24" fill="currentColor">
+            {/* YouTube Videos — one per row */}
+            {hasVideos && (
+              <div style={{ backgroundColor: '#0f172a', padding: '16px 18px', borderBottom: '1px solid #1e293b' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                  <svg style={{ width: '16px', height: '16px', flexShrink: 0 }} viewBox="0 0 24 24" fill="#dc2626">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                   </svg>
-                  <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'white' }}>Event Video</span>
+                  <span style={{ fontWeight: '700', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'white' }}>
+                    Event Video{validVideos.length > 1 ? `s (${validVideos.length})` : ''}
+                  </span>
                 </div>
-                {/* 16:9 responsive iframe */}
-                <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px' }}>
-                  <iframe
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    title={`${title} video`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+
+                {/* Each video stacked vertically */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {validVideos.map((video, i) => (
+                    <div key={i}>
+                      {validVideos.length > 1 && (
+                        <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px', marginBottom: '6px' }}>
+                          Video {i + 1}
+                        </div>
+                      )}
+                      {/* 16:9 responsive embed */}
+                      <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px' }}>
+                        <iframe
+                          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                          src={`https://www.youtube.com/embed/${video.id}`}
+                          title={`${title} video ${i + 1}`}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
