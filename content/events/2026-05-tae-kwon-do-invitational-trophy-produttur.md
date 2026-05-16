@@ -18,11 +18,12 @@ photos:
   - /images/IMG-20260504-WA0025.jpg
   - /images/IMG-20260504-WA0010.jpg
   - /images/IMG-20260504-WA0004.jpg
-  - images/WhatsApp Image 2026-05-07 at 09.28.45.jpeg
-  - images/WhatsApp Image 2026-05-07 at 09.28.44.jpeg
-  - images/WhatsApp Image 2026-05-15 at 11.44.23.jpeg
-  - images/WhatsApp Image 2026-05-15 at 11.44.23 (1).jpeg
-  - images/WhatsApp Image 2026-05-15 at 11.44.22.jpeg
+  - public/images/WhatsApp Image 2026-05-07 at 09.28.44.jpeg
+  - public/images/WhatsApp Image 2026-05-07 at 09.28.45.jpeg
+  - public/images/WhatsApp Image 2026-05-15 at 11.44.22.jpeg
+  - public/images/WhatsApp Image 2026-05-15 at 11.44.23 (1).jpeg
+  - public/images/WhatsApp Image 2026-05-15 at 11.44.23.jpeg
 image: /images/IMG-20260504-WA0005.jpg
-youtube_urls: []
+youtube_urls:
+  - https://youtu.be/chVVCljJXUo
 ---
