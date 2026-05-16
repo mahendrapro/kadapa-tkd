@@ -16,12 +16,10 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── Hero — pushed below announcement bars + navbar ── */}
       <HeroOffsetWrapper>
         <HeroSlider slides={slides} />
       </HeroOffsetWrapper>
 
-      {/* ── Stats bar ────────────────────────── */}
       <div className="bg-brand-red">
         <div className="max-w-7xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           {[
@@ -38,7 +36,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── About teaser ─────────────────────── */}
       <section className="py-24 px-6 bg-brand-light section-watermark">
         <div className="relative z-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
@@ -92,10 +89,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── What does Taekwondo mean ──────────── */}
       <TaekwondoMeaning />
 
-      {/* ── Events ───────────────────────────── */}
       <section className="py-24 px-6 bg-brand-gray">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
@@ -109,23 +104,20 @@ export default function HomePage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.slice(0, 3).map((event, i) => (
-               <EventCard key={i} title={event.title} date={event.date}
-  description={event.description} images={getEventPhotos(event)}
-  isUpcoming={new Date(event.date) >= new Date()}
-  youtubeUrls={event.youtube_urls} />
+                <EventCard key={i} title={event.title} date={event.date}
+                  description={event.description} images={getEventPhotos(event)}
+                  isUpcoming={new Date(event.date) >= new Date()}
+                  youtubeUrls={event.youtube_urls} />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* ── Belt journey ─────────────────────── */}
       <BeltSection />
 
-      {/* ── YouTube Videos ───────────────────── */}
       <YouTubeSection />
 
-      {/* ── Gallery preview ───────────────────── */}
       <section className="py-24 px-6 bg-brand-gray">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
@@ -138,7 +130,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────── */}
       <section className="py-24 px-6 bg-brand-dark relative overflow-hidden">
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-5 leading-tight">
