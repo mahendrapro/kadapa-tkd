@@ -19,6 +19,5 @@ photos:
   - /images/IMG-20260504-WA0010.jpg
   - /images/IMG-20260504-WA0004.jpg
 image: /images/IMG-20260504-WA0005.jpg
-youtube_urls:
-  - https://youtu.be/chVVCljJXUo
+youtube_urls: []
 ---
