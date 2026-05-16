@@ -109,9 +109,10 @@ export default function HomePage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.slice(0, 3).map((event, i) => (
-                <EventCard key={i} title={event.title} date={event.date}
-                  description={event.description} images={getEventPhotos(event)}
-                  isUpcoming={new Date(event.date) >= new Date()} />
+               <EventCard key={i} title={event.title} date={event.date}
+  description={event.description} images={getEventPhotos(event)}
+  isUpcoming={new Date(event.date) >= new Date()}
+  youtubeUrls={event.youtube_urls} />
               ))}
             </div>
           )}
