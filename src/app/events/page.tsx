@@ -39,9 +39,15 @@ export default function EventsPage() {
             <SectionHeading eyebrow="Upcoming Events" title="Coming Soon" align="left" />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               {upcoming.map((event, i) => (
-                <EventCard key={i} title={event.title} date={event.date}
-                  description={event.description} images={getEventPhotos(event)}
-                  isUpcoming={true} youtubeUrls={event.youtube_urls} />
+                <EventCard
+                  key={i}
+                  title={event.title}
+                  date={event.date}
+                  description={event.description}
+                  images={getEventPhotos(event)}
+                  isUpcoming={true}
+                  youtubeUrls={event.youtube_urls}
+                />
               ))}
             </div>
           </div>
@@ -56,9 +62,15 @@ export default function EventsPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               {past.map((event, i) => (
-                <EventCard key={i} title={event.title} date={event.date}
-                  description={event.description} images={getEventPhotos(event)}
-                  isUpcoming={false} youtubeUrls={event.youtube_urls} />
+                <EventCard
+                  key={i}
+                  title={event.title}
+                  date={event.date}
+                  description={event.description}
+                  images={getEventPhotos(event)}
+                  isUpcoming={false}
+                  youtubeUrls={event.youtube_urls}
+                />
               ))}
             </div>
           )}
