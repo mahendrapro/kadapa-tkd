@@ -21,5 +21,4 @@ photos:
 image: /images/IMG-20260504-WA0005.jpg
 youtube_urls:
   - https://youtu.be/chVVCljJXUo
-  - https://youtu.be/chVVCljJXUo
 ---
