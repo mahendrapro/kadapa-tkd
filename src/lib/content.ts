@@ -20,6 +20,7 @@ function getAll(folder: string): any[] {
   return getContentFiles(folder).map((f) => parseFile(folder, f));
 }
 
+// Sort: items with explicit order first (ascending), then rest by date desc or filename
 function sortByOrderThenDate(items: Record<string, any>[]): Record<string, any>[] {
   const withOrder = items
     .filter((i) => i.order != null && i.order !== '')
@@ -103,10 +104,25 @@ export function getEvents(): Event[] {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) as Event[];
 }
 
+function fixPath(p: string): string {
+  if (!p) return p;
+  // Strip 'public/' prefix if present
+  let fixed = p.replace(/^public\//, '');
+  // Ensure leading slash
+  if (!fixed.startsWith('/') && !fixed.startsWith('http')) fixed = '/' + fixed;
+  // URL-encode spaces in filename only (not slashes)
+  return fixed.split('/').map((seg, i) => i === 0 ? seg : encodeURIComponent(seg)).join('/');
+}
+
 export function getEventPhotos(event: Event): string[] {
   const photos: string[] = [];
-  if (event.image) photos.push(event.image);
-  if (event.photos) event.photos.forEach((p) => { if (p && !photos.includes(p)) photos.push(p); });
+  if (event.image) photos.push(fixPath(event.image));
+  if (event.photos) event.photos.forEach((p) => {
+    if (p) {
+      const fixed = fixPath(p);
+      if (!photos.includes(fixed)) photos.push(fixed);
+    }
+  });
   return photos;
 }
 
@@ -118,13 +134,16 @@ export function getAnnouncements(): Announcement[] {
   return getAll('announcements')
     .filter((a) => a.active !== false)
     .sort((a, b) => {
+      // 1. Pinned always before unpinned
       if (a.pinned && !b.pinned) return -1;
       if (!a.pinned && b.pinned) return 1;
+      // 2. Within same group: explicit order takes priority
       const aOrder = (a.order != null && a.order !== '') ? Number(a.order) : null;
       const bOrder = (b.order != null && b.order !== '') ? Number(b.order) : null;
       if (aOrder !== null && bOrder !== null) return aOrder - bOrder;
       if (aOrder !== null) return -1;
       if (bOrder !== null) return 1;
+      // 3. No order set — sort by date descending
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     }) as Announcement[];
 }
