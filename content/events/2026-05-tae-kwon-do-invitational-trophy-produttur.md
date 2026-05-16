@@ -24,5 +24,6 @@ photos:
   - public/images/WhatsApp Image 2026-05-15 at 11.44.23 (1).jpeg
   - public/images/WhatsApp Image 2026-05-15 at 11.44.23.jpeg
 image: /images/IMG-20260504-WA0005.jpg
-youtube_urls: []
+youtube_urls:
+  - https://youtu.be/chVVCljJXUo
 ---
