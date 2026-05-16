@@ -51,7 +51,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
   const cover = images[0] || '';
   const slides = images.map((src) => ({ src }));
 
-  // Filter to only valid video IDs
   const validVideos = (youtubeUrls || [])
     .map((url) => ({ url, id: extractVideoId(url) }))
     .filter((v) => v.id !== null) as { url: string; id: string }[];
@@ -60,7 +59,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
 
   return (
     <>
-      {/* ── Card ── */}
       <article
         className="card-pro overflow-hidden rounded-sm group cursor-pointer"
         onClick={() => setModalOpen(true)}
@@ -114,16 +112,13 @@ export default function EventCard({ title, date, description, images, isUpcoming
         </div>
       </article>
 
-      {/* ── Modal ── */}
       {modalOpen && (
         <div
           onClick={(e) => { if (e.target === e.currentTarget) setModalOpen(false); }}
           style={{
             position: 'fixed',
             top: `${topOffset}px`,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            left: 0, right: 0, bottom: 0,
             zIndex: 999,
             backgroundColor: 'rgba(0,0,0,0.75)',
             display: 'flex',
@@ -135,7 +130,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
         >
           <div style={{ width: '100%', maxWidth: '780px', backgroundColor: '#ffffff', borderRadius: '4px', overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.5)', marginBottom: '16px' }}>
 
-            {/* Header */}
             <div style={{ backgroundColor: '#0f172a', padding: '14px 18px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
@@ -161,14 +155,12 @@ export default function EventCard({ title, date, description, images, isUpcoming
               >✕</button>
             </div>
 
-            {/* Description */}
             <div style={{ padding: '16px 18px', borderBottom: '1px solid #e5e7eb', backgroundColor: '#f8f7f4' }}>
               <p style={{ margin: 0, color: '#374151', fontSize: '13px', lineHeight: '1.7', whiteSpace: 'pre-line' }}>
                 {description}
               </p>
             </div>
 
-            {/* YouTube Videos — one per row */}
             {hasVideos && (
               <div style={{ backgroundColor: '#0f172a', padding: '16px 18px', borderBottom: '1px solid #1e293b' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
@@ -179,8 +171,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
                     Event Video{validVideos.length > 1 ? `s (${validVideos.length})` : ''}
                   </span>
                 </div>
-
-                {/* Each video stacked vertically */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {validVideos.map((video, i) => (
                     <div key={i}>
@@ -189,7 +179,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
                           Video {i + 1}
                         </div>
                       )}
-                      {/* 16:9 responsive embed */}
                       <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '2px' }}>
                         <iframe
                           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
@@ -205,7 +194,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
               </div>
             )}
 
-            {/* Photos */}
             {images.length > 0 && (
               <div style={{ padding: '16px 18px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
@@ -215,8 +203,7 @@ export default function EventCard({ title, date, description, images, isUpcoming
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '6px' }}>
                   {images.map((src, i) => (
-                    <button
-                      key={i}
+                    <button key={i}
                       onClick={() => { setLightboxIndex(i); setLightboxOpen(true); }}
                       style={{ aspectRatio: '1', overflow: 'hidden', border: 'none', padding: 0, cursor: 'pointer', borderRadius: '2px', backgroundColor: '#e5e7eb' }}
                     >
@@ -228,7 +215,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
               </div>
             )}
 
-            {/* Footer */}
             <div style={{ padding: '10px 18px', borderTop: '1px solid #e5e7eb', backgroundColor: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ color: '#9ca3af', fontSize: '11px' }}>Kadapa Tae Kwon Do Club</span>
               <button
@@ -240,7 +226,6 @@ export default function EventCard({ title, date, description, images, isUpcoming
         </div>
       )}
 
-      {/* Lightbox */}
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
